@@ -95,12 +95,6 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
         }
 
-        .glass-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 20px 60px rgba(244, 114, 182, 0.1);
-        }
-
         .text-gradient-sakura {
             background: linear-gradient(to right, #f472b6, #db2777, #7c3aed);
             -webkit-background-clip: text;
@@ -126,8 +120,10 @@
             top: 0; left: 0; width: 100%; height: 100%; border: none;
         }
 
-        [data-lang="en"] .lang-jp,
-        [data-lang="ja"] .lang-en { display: none; }
+        /* 多言語表示制御 */
+        [data-lang="ja"] .lang-en, [data-lang="ja"] .lang-fr { display: none; }
+        [data-lang="en"] .lang-jp, [data-lang="en"] .lang-fr { display: none; }
+        [data-lang="fr"] .lang-jp, [data-lang="fr"] .lang-en { display: none; }
 
         .animate-float {
             animation: floating 6s ease-in-out infinite;
@@ -199,6 +195,26 @@
             font-size: 0.75rem; font-weight: 700; color: #4b5563;
             margin-top: 0.8rem; line-height: 1.4;
         }
+
+        .btn-social {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #4b5563;
+            transition: all 0.3s ease;
+        }
+        .btn-social:hover {
+            background: #fdf2f8;
+            border-color: #f472b6;
+            color: #db2777;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body data-lang="ja">
@@ -209,21 +225,25 @@
     <!-- Navigation -->
     <a href="https://shining-planner.jp/" class="back-home">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-        <span class="lang-jp">HOMEへ戻る</span><span class="lang-en">BACK TO HOME</span>
+        <span class="lang-jp">HOMEへ戻る</span>
+        <span class="lang-en">BACK TO HOME</span>
+        <span class="lang-fr">RETOUR À L'ACCUEIL</span>
     </a>
 
     <div class="lang-switch">
         <div onclick="setLanguage('ja')" class="lang-btn active" id="btn-ja">JP</div>
         <div onclick="setLanguage('en')" class="lang-btn" id="btn-en">EN</div>
+        <div onclick="setLanguage('fr')" class="lang-btn" id="btn-fr">FR</div>
     </div>
 
     <!-- Hero Section -->
     <section class="relative min-h-screen flex flex-col items-center justify-center px-4 text-center overflow-hidden">
         <div id="creator-orbit-container"></div>
-        <div class="animate-float relative z-10 text-center">
+        <div class="animate-float relative z-10">
             <h2 class="text-lg md:text-2xl tracking-[0.4em] text-pink-600 font-bold mb-6">
                 <span class="lang-jp">キャラクター × 人道支援</span>
                 <span class="lang-en">Characters x Humanitarian Aid</span>
+                <span class="lang-fr">Personnages x Aide Humanitaire</span>
             </h2>
             <h1 class="text-5xl md:text-8xl font-black mb-8 tracking-tighter text-gray-900">
                 SAKURA BLOOM<br />
@@ -232,6 +252,7 @@
             <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 font-light leading-relaxed mt-12 px-4">
                 <span class="lang-jp">「ワクワク」が未来を救う力になる。<br class="hidden md:block" />アニメ・キャラクターで紡ぐ、新しい支援の形。</span>
                 <span class="lang-en">"Excitement" becomes the power to save the future.<br class="hidden md:block" />A new form of aid woven with anime and characters.</span>
+                <span class="lang-fr">"L'excitation" devient le pouvoir de sauver l'avenir.<br class="hidden md:block" />Une nouvelle forme d'aide tissée avec l'anime et les personnages.</span>
             </p>
         </div>
         <div class="absolute bottom-12 animate-bounce opacity-40">
@@ -246,17 +267,20 @@
             <h3 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 leading-tight">
                 <span class="lang-jp">2025.06 子どもたちのリクエストから始まった支援</span>
                 <span class="lang-en">2025.06 Support Born from Children's Requests</span>
+                <span class="lang-fr">2025.06 Un soutien né des demandes des enfants</span>
             </h3>
         </header>
-        <div class="max-w-4xl mx-auto mb-16 text-center text-center">
+        <div class="max-w-4xl mx-auto mb-16">
             <div class="text-gray-600 text-lg font-light leading-relaxed mb-12 text-center md:text-left space-y-6">
                 <p>
-                    <span class="lang-jp text-center md:text-left">2025年6月、フィリピンの子どもたちから「教室でもアニメが見たい」という切実なリクエストを受け、プロジェクター等の寄贈を実施。私たちの活動は、子どもたちとの対話から始まった確かな絆が礎となっています。</span>
-                    <span class="lang-en">In June 2025, following a heartfelt request from children in the Philippines to "watch anime in the classroom," we donated projectors and essential equipment. Our activities are built on a solid bond formed through direct dialogue.</span>
+                    <span class="lang-jp">2025年6月、フィリピンの子どもたちから「教室でもアニメが見たい」という切実なリクエストを受け、プロジェクター等の寄贈を実施。私たちの活動は、子どもたちとの対話から始まった確かな絆が礎となっています。</span>
+                    <span class="lang-en">In June 2025, after a request from children in the Philippines to "watch anime in the classroom," we donated projectors and essential equipment. Our activities are built on a solid bond formed through direct dialogue.</span>
+                    <span class="lang-fr">En juin 2025, suite à une demande pressante d'enfants aux Philippines voulant "regarder des anime en classe", nous avons fait don de projecteurs et d'équipements essentiels. Nos activités reposent sur un lien solide formé par le dialogue direct.</span>
                 </p>
                 <p>
-                    <span class="lang-jp text-center md:text-left">また、自社でプロデュースしたキャラクターグッズに加え、多くの協力会社様からご提供いただいたグッズの寄付も行いました。アニメーションやキャラクターが持つ「笑顔にする力」を現地へ届け続けています。</span>
-                    <span class="lang-en">Furthermore, we donated original character goods along with various items from our partner companies. We continue to deliver the "power to bring smiles" through characters.</span>
+                    <span class="lang-jp">また、自社でプロデュースしたキャラクターグッズに加え、多くの協力会社様からご提供いただいたグッズの寄付も行いました。アニメーションやキャラクターが持つ「笑顔にする力」を現地へ届け続けています。</span>
+                    <span class="lang-en">We also donated original character goods and items provided by our partners, continuing to deliver the "power to bring smiles" through animation.</span>
+                    <span class="lang-fr">Nous avons également fait don de produits dérivés de personnages originaux ainsi que d'articles fournis par nos partenaires, continuant à transmettre le "pouvoir de faire sourire" à travers l'animation.</span>
                 </p>
             </div>
             
@@ -264,14 +288,16 @@
                 <div class="video-container">
                     <iframe src="https://www.youtube.com/embed/eLyIDxTTiHM" allowfullscreen title="Support Scene"></iframe>
                 </div>
-                <div class="mt-8 px-4">
+                <div class="mt-8">
                     <p class="text-sm text-pink-400 font-bold tracking-widest mb-4">
                         <span class="lang-jp">▼ 2025年 セブ島・ボホール島 人道支援報告動画</span>
                         <span class="lang-en">▼ 2025 Cebu & Bohol Humanitarian Aid Report</span>
+                        <span class="lang-fr">▼ Rapport sur l'aide humanitaire 2025 à Cebu et Bohol</span>
                     </p>
                     <p class="text-xs text-gray-500 font-light">
                         <span class="lang-jp">（動画には現地の支援活動のほか、珊瑚の再生と保護の活動の様子も含まれています）</span>
                         <span class="lang-en">(Includes scenes of humanitarian activities and coral restoration efforts)</span>
+                        <span class="lang-fr">(Inclut des scènes d'activités humanitaires et d'efforts de restauration des coraux)</span>
                     </p>
                 </div>
             </div>
@@ -281,21 +307,24 @@
     <!-- 2. Our Mission Section -->
     <section class="relative z-10 max-w-6xl mx-auto py-24 px-8">
         <div class="glass-card p-10 md:p-24 rounded-[4rem] border-pink-50 text-center">
-            <header class="mb-16 text-center">
+            <header class="mb-16">
                 <h2 class="text-xs tracking-[0.5em] uppercase text-pink-500 font-bold mb-4">Our Mission</h2>
-                <h3 class="text-3xl md:text-6xl font-black text-gray-900 tracking-tight text-center">
+                <h3 class="text-3xl md:text-6xl font-black text-gray-900 tracking-tight">
                     <span class="lang-jp text-center">キャラクター × 人道支援による<br class="hidden md:block" />人道的経済の実現</span>
                     <span class="lang-en text-center">Realizing a Humanitarian Economy<br class="hidden md:block" />through Characters x Aid</span>
+                    <span class="lang-fr text-center">Réaliser une Économie Humanitaire<br class="hidden md:block" />grâce aux Personnages x Aide</span>
                 </h3>
             </header>
             <div class="max-w-4xl mx-auto text-lg md:text-xl text-gray-600 leading-loose font-light">
                 <p class="mb-12 italic border-l-4 border-pink-400 pl-6 text-gray-800 font-medium md:text-left text-center">
-                    <span class="lang-jp text-center md:text-left text-center text-center">Shining Planner株式会社は日本が誇るアニメ・キャラクター文化を「支援の武器」に変え、楽しみながら経済と支援が循環する新しい仕組みを現地のスポンサーや日本のパートナーの方々と協力しながら創造します。</span>
-                    <span class="lang-en italic border-l-4 border-pink-400 pl-6 block text-gray-800 font-medium text-lg text-center md:text-left text-center text-center">Shining Planner Co., Ltd. transforms Japan's proud anime culture into a "weapon for support," creating a new system where economy and aid circulate through enjoyment, in collaboration with local sponsors and Japanese partners.</span>
+                    <span class="lang-jp text-center md:text-left">Shining Planner株式会社は日本が誇るアニメ・キャラクター文化を「支援の武器」に変え、楽しみながら経済と支援が循環する新しい仕組みを現地のスポンサーや日本のパートナーの方々と協力しながら創造します。</span>
+                    <span class="lang-en">Shining Planner Co., Ltd. transforms Japan's anime culture into a "weapon for support," creating a system where economy and aid circulate through enjoyment.</span>
+                    <span class="lang-fr">Shining Planner Co., Ltd. transforme la culture anime et personnages du Japon en une "arme de soutien", créant un système où l'économie et l'aide circulent par le plaisir.</span>
                 </p>
-                <p class="md:text-left text-center text-center text-center">
-                    <span class="lang-jp text-center md:text-left text-center text-center">継続的に行なってきた阿佐ヶ谷でのクリエイターや飲食店のコミュニティ運営実績を礎に、地域に根ざした文化的価値の創出を続けてきました。その経験をベースに、新たにセブのコミュニティからそのモデルをグローバルへと広げていきます。</span>
-                    <span class="lang-en text-center md:text-left text-center text-center">Based on our work in Asagaya, we are now expanding this model globally, starting from Cebu.</span>
+                <p class="md:text-left text-center">
+                    <span class="lang-jp">継続的に行なってきた阿佐ヶ谷でのクリエイターや飲食店のコミュニティ運営実績を礎に、地域に根ざした文化的価値の創出を続けてきました。その経験をベースに、新たにセブのコミュニティからそのモデルをグローバルへと広げていきます。</span>
+                    <span class="lang-en">Based on our work in Asagaya, we are now expanding this model globally, starting from the Cebu community.</span>
+                    <span class="lang-fr">En nous appuyant sur notre expérience à Asagaya, nous étendons désormais ce modèle à l'échelle mondiale, en commençant par la communauté de Cebu.</span>
                 </p>
             </div>
         </div>
@@ -303,51 +332,61 @@
 
     <!-- 3. Project Details Section -->
     <section class="relative z-10 max-w-6xl mx-auto py-24 px-8 text-center">
-        <header class="text-center mb-24 text-center">
-            <h2 class="text-xs tracking-[0.5em] uppercase text-pink-500 font-bold mb-4 text-center">Project: 2026.03</h2>
-            <h3 class="text-3xl md:text-6xl font-black text-gray-900 tracking-tighter mb-6 text-center text-center">
-                <span class="lang-jp text-center text-center">セブ島での新たな挑戦</span>
-                <span class="lang-en text-center text-center">New Challenge in Cebu</span>
+        <header class="mb-24">
+            <h2 class="text-xs tracking-[0.5em] uppercase text-pink-500 font-bold mb-4">Project: 2026.03</h2>
+            <h3 class="text-3xl md:text-6xl font-black text-gray-900 tracking-tighter mb-6">
+                <span class="lang-jp">セブ島での新たな挑戦</span>
+                <span class="lang-en">New Challenge in Cebu</span>
+                <span class="lang-fr">Nouveau Défi à Cebu</span>
             </h3>
-            <p class="text-pink-600 font-bold tracking-[0.3em] text-xl uppercase text-center text-center">"The Mactan Newtown"</p>
-            <p class="text-gray-400 text-sm tracking-widest mt-2 font-medium text-center text-center text-center">2026.3.21 - 3.28</p>
+            <p class="text-pink-600 font-bold tracking-[0.3em] text-xl uppercase">"The Mactan Newtown"</p>
+            <p class="text-gray-400 text-sm tracking-widest mt-2 font-medium">2026.3.21 - 3.28</p>
         </header>
 
-        <div class="max-w-4xl mx-auto space-y-20 text-center">
-            <div class="project-item text-left text-center md:text-left text-center">
-                <h4 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center md:text-left text-center text-center">
-                    <span class="lang-jp text-center text-center">KIZUNA Exhibition 特別展示</span>
-                    <span class="lang-en text-center text-center text-center">KIZUNA Exhibition Special Display</span>
-                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-jp text-center">特別展示</span>
+        <div class="max-w-4xl mx-auto space-y-20">
+            <div class="project-item text-left">
+                <h4 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                    <span class="lang-jp">KIZUNA Exhibition 特別展示</span>
+                    <span class="lang-en">KIZUNA Exhibition Special Display</span>
+                    <span class="lang-fr">Exposition Spéciale KIZUNA Exhibition</span>
+                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-jp">特別展示</span>
                     <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-en text-center">Special Exhibition</span>
+                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-fr text-center">Exposition Spéciale</span>
                 </h4>
-                <p class="text-lg md:text-xl text-gray-600 leading-relaxed font-light text-center md:text-left text-center">
-                    <span class="lang-jp text-center">阿佐ヶ谷から世界へ。日本食キャラクターたちが、現地の子どもたちとの新たな絆を紡ぎます。展示を通じて日本文化の深さを伝え、次世代との交流を深める拠点となります。</span>
-                    <span class="lang-en text-center md:text-left">Bringing Japanese food characters to the world to weave new bonds with local children and establish a cultural exchange hub.</span>
+                <p class="text-lg md:text-xl text-gray-600 font-light">
+                    <span class="lang-jp">阿佐ヶ谷から世界へ。日本食キャラクターたちが、現地の子どもたちとの新たな絆を紡ぎます。展示を通じて日本文化の深さを伝え、次世代との交流を深める拠点となります。</span>
+                    <span class="lang-en">Bringing Japanese food characters to the world to weave new bonds with local children and establish a hub for cultural exchange.</span>
+                    <span class="lang-fr">Des personnages de la cuisine japonaise partent d'Asagaya vers le monde pour tisser de nouveaux liens avec les enfants locaux et établir un centre d'échange culturel.</span>
                 </p>
             </div>
-            <div class="project-item text-left text-center md:text-left text-center">
-                <h4 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center md:text-left text-center text-center">
-                    <span class="lang-jp text-center md:text-left">伝説のすた丼屋 コラボ企画</span>
-                    <span class="lang-en text-center text-center">LEGENDARY SUTADONYA Collab</span>
-                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-jp text-center text-center">街全体を舞台に</span>
-                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-en text-center text-center text-center">City-wide Stage</span>
+            <div class="project-item text-left">
+                <h4 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                    <span class="lang-jp">伝説のすた丼屋 コラボ企画</span>
+                    <span class="lang-en text-center">LEGENDARY SUTADONYA Collab</span>
+                    <span class="lang-fr text-center">Collaboration LEGENDARY SUTADONYA</span>
+                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-jp text-center">街全体を舞台に</span>
+                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-en text-center">City-wide Stage</span>
+                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-fr text-center">Scène à l'échelle de la ville</span>
                 </h4>
-                <p class="text-lg md:text-xl text-gray-600 leading-relaxed font-light text-center md:text-left text-center">
-                    <span class="lang-jp text-center md:text-left text-center">セブ島グランドオープンを記念し、30ヘクタールの経済特区全体を使ったスタンプラリーや謎解きイベントを実施。食とエンターテインメントが融合した街歩き体験を提供します。</span>
-                    <span class="lang-en">A city-wide project involving stamp rallies and mystery events across 30 hectares to celebrate the Grand Opening.</span>
+                <p class="text-lg md:text-xl text-gray-600 font-light">
+                    <span class="lang-jp">セブ島グランドオープンを記念し、30ヘクタールの経済特区全体を使ったスタンプラリーや謎解きイベントを実施。食とエンターテインメントが融合した街歩き体験を提供します。</span>
+                    <span class="lang-en">Celebrating the Grand Opening in Cebu with city-wide stamp rallies and mystery events across the 30-hectare zone.</span>
+                    <span class="lang-fr">Pour célébrer l'inauguration à Cebu, nous organisons des rallyes tampons et des événements mystères dans toute la zone de 30 hectares.</span>
                 </p>
             </div>
-            <div class="project-item text-left text-center md:text-left text-center">
-                <h4 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-center md:text-left text-center text-center text-center">
-                    <span class="lang-jp text-center md:text-left text-center">新キャラクターの登場</span>
-                    <span class="lang-en text-center text-center text-center text-center">New Character Debut</span>
-                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-jp text-center text-center">特別書き下ろし</span>
-                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-en text-center">Newly Designed</span>
+            <div class="project-item text-left">
+                <h4 class="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                    <span class="lang-jp">新キャラクターの登場</span>
+                    <span class="lang-en text-center">New Character Debut</span>
+                    <span class="lang-fr text-center">Début de Nouveaux Personnages</span>
+                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-jp">特別書き下ろし</span>
+                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-en">Newly Designed</span>
+                    <span class="text-sm text-pink-400 font-medium ml-4 tracking-widest lang-fr">Nouvellement Conçu</span>
                 </h4>
-                <p class="text-lg md:text-xl text-gray-600 leading-relaxed font-light text-center md:text-left text-center">
-                    <span class="lang-jp text-center md:text-left text-center">不動の人気を誇る「すめしゃーりー」に加え、名撫月テクノさんによる個性豊かな仲間たちが新たに登場し、会場を盛り上げます。</span>
-                    <span class="lang-en text-center text-center">In addition to the popular "Sumesyari," diverse characters by Techno Nanatsuki will debut to energize the venue.</span>
+                <p class="text-lg md:text-xl text-gray-600 font-light">
+                    <span class="lang-jp">不動の人気を誇る「すめしゃーりー」に加え、名撫月テクノさんによる個性豊かな仲間たちが新たに登場し、会場を盛り上げます。</span>
+                    <span class="lang-en">In addition to the popular "Sumesyari," diverse new characters will make their debut to energize the venue.</span>
+                    <span class="lang-fr">En plus du populaire "Sumesyari", de nouveaux personnages diversifiés feront leurs débuts pour dynamiser le lieu.</span>
                 </p>
             </div>
         </div>
@@ -356,157 +395,263 @@
     <div class="section-divider"></div>
 
     <!-- 4. Characters Section -->
-    <section class="relative z-10 max-w-7xl mx-auto py-24 px-8 text-center text-center text-center text-center text-center">
-        <header class="text-center mb-24 text-center">
-            <h2 class="text-xs tracking-[0.5em] uppercase text-pink-500 font-bold mb-4 text-center w-full block text-center">The Cast</h2>
-            <h3 class="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter text-center w-full block text-center text-center">Project Characters</h3>
+    <section class="relative z-10 max-w-7xl mx-auto py-24 px-8 text-center">
+        <header class="mb-24">
+            <h2 class="text-xs tracking-[0.5em] uppercase text-pink-500 font-bold mb-4">The Cast</h2>
+            <h3 class="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter">
+                <span class="lang-jp">プロジェクトキャラクター</span>
+                <span class="lang-en">Project Characters</span>
+                <span class="lang-fr">Personnages du Projet</span>
+            </h3>
         </header>
 
-        <!-- Group 1: Illustrator gaogao-san (Sumesyari & Food Friends) -->
-        <div class="mb-48 text-center">
-            <div class="flex items-center gap-4 mb-16 text-center text-center text-center">
-                <div class="h-px flex-1 bg-pink-100 text-center text-center"></div>
+        <!-- Group 1: gaogao-san -->
+        <div class="mb-48">
+            <div class="flex items-center gap-4 mb-16">
+                <div class="h-px flex-1 bg-pink-100"></div>
                 <div>
-                    <p class="text-xs font-bold text-pink-400 uppercase tracking-[0.3em] mb-1 text-center text-center">Illustrations by</p>
-                    <a href="https://gaogaomegu.art/index.html" target="_blank" class="text-xl font-bold text-gray-900 hover:text-pink-600 transition-colors text-center text-center">
-                        <span class="lang-jp text-center">gaogaoさん</span><span class="lang-en text-center">gaogao-san</span>
+                    <p class="text-xs font-bold text-pink-400 uppercase tracking-[0.3em] mb-1">Illustrations by</p>
+                    <a href="https://gaogaomegu.art/index.html" target="_blank" class="text-xl font-bold text-gray-900 hover:text-pink-600 transition-colors">
+                        gaogaoさん
                     </a>
                 </div>
-                <div class="h-px flex-1 bg-pink-100 text-center text-center"></div>
+                <div class="h-px flex-1 bg-pink-100"></div>
             </div>
 
             <!-- Sumesyari Section -->
-            <div class="max-w-6xl mx-auto mb-24 text-center">
-                <h5 class="char-group-label text-center">すめしゃーりー 集合写真 / Group Photo</h5>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 text-center text-center">
-                    <div class="character-img-wrapper p-10 shadow-2xl shadow-pink-100/60 text-center text-center"><img src="sumesyari1.jpg" alt="Sumesyari Group 1" class="character-img"></div>
-                    <div class="character-img-wrapper p-10 shadow-2xl shadow-pink-100/60 text-center text-center text-center"><img src="sumesyari2.jpg" alt="Sumesyari Group 2" class="character-img"></div>
+            <div class="max-w-6xl mx-auto mb-24">
+                <h5 class="char-group-label text-center">
+                    <span class="lang-jp">すめしゃーりー 集合写真</span>
+                    <span class="lang-en">Sumesyari Group Photo</span>
+                    <span class="lang-fr">Photo de Groupe Sumesyari</span>
+                </h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                    <div class="character-img-wrapper p-10 shadow-2xl shadow-pink-100/60"><img src="sumesyari1.jpg" alt="Sumesyari Group 1" class="character-img"></div>
+                    <div class="character-img-wrapper p-10 shadow-2xl shadow-pink-100/60"><img src="sumesyari2.jpg" alt="Sumesyari Group 2" class="character-img"></div>
                 </div>
 
-                <!-- Individual 5 Chars (Order: Sumika, Syusyuri, Sakura, Murasaki, Shiraha) -->
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-24 text-center items-start justify-center text-center">
+                <!-- Individual 5 Chars (Order updated) -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-24 items-start">
                     <div class="flex flex-col items-center">
-                        <div class="character-img-wrapper shadow-pink-50/50"><img src="sumeshari6.jpg" alt="Sumika" class="character-img"></div>
+                        <div class="character-img-wrapper"><img src="sumeshari6.jpg" alt="Sumika" class="character-img"></div>
                         <p class="char-name-label">すみか<br>Sumika</p>
                     </div>
-                    <div class="flex flex-col items-center text-center">
-                        <div class="character-img-wrapper shadow-pink-50/50"><img src="sumesyari4.jpg" alt="Syusyuri" class="character-img"></div>
+                    <div class="flex flex-col items-center">
+                        <div class="character-img-wrapper"><img src="sumesyari4.jpg" alt="Syusyuri" class="character-img"></div>
                         <p class="char-name-label">しゅしゅり<br>Syusyuri</p>
                     </div>
-                    <div class="flex flex-col items-center text-center">
-                        <div class="character-img-wrapper shadow-pink-50/50"><img src="sumesyari3.jpg" alt="Sakura" class="character-img"></div>
+                    <div class="flex flex-col items-center">
+                        <div class="character-img-wrapper"><img src="sumesyari3.jpg" alt="Sakura" class="character-img"></div>
                         <p class="char-name-label">さくら<br>Sakura</p>
                     </div>
-                    <div class="flex flex-col items-center text-center text-center">
-                        <div class="character-img-wrapper shadow-pink-50/50"><img src="sumesyari7.jpg" alt="Murasaki" class="character-img"></div>
+                    <div class="flex flex-col items-center">
+                        <div class="character-img-wrapper"><img src="sumesyari7.jpg" alt="Murasaki" class="character-img"></div>
                         <p class="char-name-label">むらさき<br>Murasaki</p>
                     </div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center">
-                        <div class="character-img-wrapper shadow-pink-50/50"><img src="sumesyari5.jpg" alt="Shiraha" class="character-img"></div>
+                    <div class="flex flex-col items-center">
+                        <div class="character-img-wrapper"><img src="sumesyari5.jpg" alt="Shiraha" class="character-img"></div>
                         <p class="char-name-label">しらは<br>Shiraha</p>
                     </div>
                 </div>
 
-                <h5 class="char-group-label pt-12 text-center text-center">日本食の仲間たち / Food Friends</h5>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center text-center">
-                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao1.jpg" alt="Misoshiru" class="character-img"></div><p class="char-name-label">みそ汁<br>Misoshiru</p></div>
-                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao2.jpg" alt="Tempura" class="character-img"></div><p class="char-name-label">天ぷら<br>Tempura</p></div>
-                    <div class="flex flex-col items-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao3.jpg" alt="Lunch" class="character-img"></div><p class="char-name-label">スクールランチ<br>School lunch</p></div>
-                    <div class="flex flex-col items-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao4.jpg" alt="Ramen" class="character-img"></div><p class="char-name-label">ラーメン<br>Ramen</p></div>
-                    <div class="flex flex-col items-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao5.jpg" alt="Yakisoba" class="character-img"></div><p class="char-name-label">やきそば<br>Yakisoba</p></div>
-                    <div class="flex flex-col items-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao6.jpg" alt="Mochi" class="character-img"></div><p class="char-name-label">もち<br>Mochi</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao7.jpg" alt="Takoyaki" class="character-img"></div><p class="char-name-label">たこ焼き<br>Takoyaki</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao8.jpg" alt="Taiyaki" class="character-img"></div><p class="char-name-label">たい焼き<br>Taiyaki</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao9.jpg" alt="Sembei" class="character-img"></div><p class="char-name-label">せんべい<br>Sembei</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao10.jpg" alt="Shabu" class="character-img"></div><p class="char-name-label">しゃぶしゃぶ<br>Shabu-shabu</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao11.jpg" alt="Curry" class="character-img"></div><p class="char-name-label">カレー<br>Curry</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao12.jpg" alt="Kakigori" class="character-img"></div><p class="char-name-label">かき氷<br>Kakigori</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao13.jpg" alt="Ocha" class="character-img"></div><p class="char-name-label">お茶<br>Ocha</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao14.jpg" alt="Onigiri" class="character-img"></div><p class="char-name-label">おにぎり<br>Onigiri</p></div>
-                    <div class="flex flex-col items-center text-center text-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper"><img src="gaogao15.jpg" alt="Udon" class="character-img"></div><p class="char-name-label">うどん<br>Udon</p></div>
+                <!-- 15 Food Chars -->
+                <h5 class="char-group-label pt-12 text-center">
+                    <span class="lang-jp">日本食の仲間たち</span>
+                    <span class="lang-en">Food Friends</span>
+                    <span class="lang-fr">Amis de la Nourriture</span>
+                </h5>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao1.jpg" alt="Misoshiru" class="character-img"></div><p class="char-name-label"><span class="lang-jp">みそ汁</span><span class="lang-en">Misoshiru</span><span class="lang-fr">Misoshiru</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao2.jpg" alt="Tempura" class="character-img"></div><p class="char-name-label"><span class="lang-jp">天ぷら</span><span class="lang-en">Tempura</span><span class="lang-fr">Tempura</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao3.jpg" alt="Lunch" class="character-img"></div><p class="char-name-label"><span class="lang-jp">スクールランチ</span><span class="lang-en">School lunch</span><span class="lang-fr">Déjeuner scolaire</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao4.jpg" alt="Ramen" class="character-img"></div><p class="char-name-label"><span class="lang-jp">ラーメン</span><span class="lang-en">Ramen</span><span class="lang-fr">Ramen</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao5.jpg" alt="Yakisoba" class="character-img"></div><p class="char-name-label"><span class="lang-jp">やきそば</span><span class="lang-en">Yakisoba</span><span class="lang-fr">Yakisoba</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao6.jpg" alt="Mochi" class="character-img"></div><p class="char-name-label"><span class="lang-jp">もち</span><span class="lang-en">Mochi</span><span class="lang-fr">Mochi</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao7.jpg" alt="Takoyaki" class="character-img"></div><p class="char-name-label"><span class="lang-jp">たこ焼き</span><span class="lang-en">Takoyaki</span><span class="lang-fr">Takoyaki</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao8.jpg" alt="Taiyaki" class="character-img"></div><p class="char-name-label"><span class="lang-jp">たい焼き</span><span class="lang-en">Taiyaki</span><span class="lang-fr">Taiyaki</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao9.jpg" alt="Sembei" class="character-img"></div><p class="char-name-label"><span class="lang-jp">せんべい</span><span class="lang-en">Sembei</span><span class="lang-fr">Sembei</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao10.jpg" alt="Shabu" class="character-img"></div><p class="char-name-label"><span class="lang-jp">しゃぶしゃぶ</span><span class="lang-en">Shabu-shabu</span><span class="lang-fr">Shabu-shabu</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao11.jpg" alt="Curry" class="character-img"></div><p class="char-name-label"><span class="lang-jp">カレー</span><span class="lang-en">Curry</span><span class="lang-fr">Curry</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao12.jpg" alt="Kakigori" class="character-img"></div><p class="char-name-label"><span class="lang-jp">かき氷</span><span class="lang-en">Kakigori</span><span class="lang-fr">Kakigori</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao13.jpg" alt="Ocha" class="character-img"></div><p class="char-name-label"><span class="lang-jp">お茶</span><span class="lang-en">Ocha</span><span class="lang-fr">Ocha</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao14.jpg" alt="Onigiri" class="character-img"></div><p class="char-name-label"><span class="lang-jp">おにぎり</span><span class="lang-en">Onigiri</span><span class="lang-fr">Onigiri</span></p></div>
+                    <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="gaogao15.jpg" alt="Udon" class="character-img"></div><p class="char-name-label"><span class="lang-jp">うどん</span><span class="lang-en">Udon</span><span class="lang-fr">Udon</span></p></div>
                 </div>
 
-                <div class="mt-20 max-w-4xl mx-auto text-center text-center">
-                    <p class="text-xl md:text-2xl text-gray-800 font-bold leading-relaxed mb-8 text-center text-center text-center text-center">
-                        <span class="lang-jp text-center text-center">阿佐ヶ谷コミュニティの案内人を務めた「すめしゃーりー」と20種類の個性豊かな仲間たちが、海を越えてフィリピンへ。</span>
-                        <span class="lang-en text-center text-center">The 20 unique characters, including Sumesyari, who served as guides for the Asagaya community, are now crossing the ocean to the Philippines.</span>
+                <div class="mt-20 max-w-4xl mx-auto">
+                    <p class="text-xl md:text-2xl text-gray-800 font-bold leading-relaxed mb-8">
+                        <span class="lang-jp">阿佐ヶ谷コミュニティの案内人を務めた「すめしゃーりー」と20種類の個性豊かな仲間たちが、海を越えてフィリピンへ。</span>
+                        <span class="lang-en">The 20 unique characters, including Sumesyari, who served as guides for the Asagaya community, are now crossing the ocean to the Philippines.</span>
+                        <span class="lang-fr">Les 20 personnages uniques, dont Sumesyari, qui ont servi de guides pour la communauté d'Asagaya, traversent maintenant l'océan vers les Philippines.</span>
                     </p>
-                    <p class="text-lg md:text-xl text-pink-600 font-medium text-center text-center">
-                        <span class="lang-jp text-center text-center">セブ島の「The Mactan Newtown」でも、街の案内人として皆様を楽しくナビゲートします。</span>
-                        <span class="lang-en text-center text-center text-center text-center text-center">They will serve as joyful guides for everyone at "The Mactan Newtown" in Cebu.</span>
+                    <p class="text-lg md:text-xl text-pink-600 font-medium">
+                        <span class="lang-jp">セブ島の「The Mactan Newtown」でも、街の案内人として皆様を楽しくナビゲートします。</span>
+                        <span class="lang-en">They will serve as joyful guides for everyone at "The Mactan Newtown" in Cebu.</span>
+                        <span class="lang-fr">Ils serviront de guides joyeux pour tout le monde à "The Mactan Newtown" à Cebu.</span>
                     </p>
                 </div>
             </div>
 
-            <div class="max-w-4xl mx-auto text-center text-center text-center">
-                <div class="glass-card p-10 md:p-16 rounded-[4rem] border-pink-100/50 text-center">
-                    <h4 class="text-2xl font-bold text-pink-600 mb-8 flex items-center justify-center gap-3 text-center text-center">
+            <div class="max-w-4xl mx-auto">
+                <div class="glass-card p-10 md:p-16 rounded-[4rem] border-pink-100/50">
+                    <h4 class="text-2xl font-bold text-pink-600 mb-8 flex items-center justify-center gap-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 14c4 0 4 4 8 4s4-4 8-4 4 4 8 4M2 10c4 0 4 4 8 4s4-4 8-4 4 4 8 4M2 6c4 0 4 4 8 4s4-4 8-4 4 4 8 4"/></svg>
-                        <span class="lang-jp">海のキャラクターたち</span><span class="lang-en">Sea Characters</span>
+                        <span class="lang-jp">海のキャラクターたち</span>
+                        <span class="lang-en">Sea Characters</span>
+                        <span class="lang-fr">Personnages de la Mer</span>
                     </h4>
-                    <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-medium italic mb-8 text-center">
-                        「海の環境や珊瑚保護など、海のキャラクターたちが地球環境に大切なものを伝えてくれます。」
+                    <p class="text-xl md:text-2xl text-gray-700 leading-relaxed font-medium italic mb-8">
+                        <span class="lang-jp">「海の環境や珊瑚保護など、海のキャラクターたちが地球環境に大切なものを伝えてくれます。」</span>
+                        <span class="lang-en">"Sea characters convey important messages about the global environment, such as marine conservation and coral protection."</span>
+                        <span class="lang-fr">"Les personnages marins transmettent des messages importants sur l'environnement mondial, comme la conservation marine et la protection des coraux."</span>
                     </p>
-                    <div class="mt-8 pt-8 border-t border-pink-100 text-gray-500 font-light text-center text-center text-center">
-                        <span class="lang-jp text-center text-center">セブ島の豊かな自然と、gaogaoさんの描く優しいタッチが融合。キャラクターを通じて次世代へ環境への想いを繋ぎます。</span>
-                        <span class="lang-en text-center text-center text-center text-center text-center">Connecting environmental awareness to the next generation through art and nature.</span>
+                    <div class="mt-8 pt-8 border-t border-pink-100 text-gray-500 font-light">
+                        <span class="lang-jp">セブ島の豊かな自然と、gaogaoさんの描く優しいタッチが融合。キャラクターを通じて次世代へ環境への想いを繋ぎます。</span>
+                        <span class="lang-en">Connecting environmental awareness to the next generation through art and nature.</span>
+                        <span class="lang-fr">La nature riche de Cebu se fond avec la touche douce de gaogao-san. Connecter la conscience environnementale à la prochaine génération à travers les personnages.</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Group 2: Illustrator Techno Nanatsuki -->
+        <!-- Group 2: Techno Nanatsuki -->
         <div class="mb-48 text-center">
-            <div class="flex items-center gap-4 mb-16 text-center text-center">
-                <div class="h-px flex-1 bg-blue-100 text-center text-center"></div>
-                <div>
-                    <p class="text-xs font-bold text-blue-400 uppercase tracking-[0.3em] mb-1 text-center text-center">Illustrations by</p>
-                    <span class="text-xl font-bold text-gray-900 text-center text-center text-center">
-                        <span class="lang-jp text-center">名撫月テクノさん</span><span class="lang-en">Techno Nanatsuki</span>
-                    </span>
+            <div class="flex items-center gap-4 mb-16">
+                <div class="h-px flex-1 bg-blue-100"></div>
+                <div class="text-center">
+                    <p class="text-xs font-bold text-blue-400 uppercase tracking-[0.3em] mb-1">Illustrations by</p>
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="text-xl font-bold text-gray-900">
+                            <span class="lang-jp">名撫月テクノさん</span>
+                            <span class="lang-en">Techno Nanatsuki</span>
+                            <span class="lang-fr">Techno Nanatsuki</span>
+                        </span>
+                        <a href="https://www.instagram.com/nanashi_moon49?igsh=YXk3YzR2aHoyYnkz" target="_blank" class="btn-social">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                            Instagram
+                        </a>
+                    </div>
                 </div>
-                <div class="h-px flex-1 bg-blue-100 text-center text-center"></div>
+                <div class="h-px flex-1 bg-blue-100"></div>
             </div>
             
-            <div class="max-w-7xl mx-auto space-y-32 text-center">
+            <div class="max-w-7xl mx-auto space-y-32">
                 <div>
-                    <h5 class="char-group-label text-center"><span class="lang-jp text-center">ぱる助</span><span class="lang-en text-center">Pug the Parusuke</span></h5>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center text-center items-center justify-center">
-                        <div class="character-img-wrapper text-center"><img src="tekuno1.jpg" alt="Parusuke 1" class="character-img"></div>
-                        <div class="character-img-wrapper text-center text-center text-center"><img src="tekuno2.jpg" alt="Parusuke 2" class="character-img"></div>
-                        <div class="character-img-wrapper text-center text-center text-center"><img src="tekuno5.jpg" alt="Parusuke 3" class="character-img"></div>
+                    <h5 class="char-group-label text-center">
+                        <span class="lang-jp">ぱる助</span>
+                        <span class="lang-en">Pug the Parusuke</span>
+                        <span class="lang-fr">Pug le Parusuke</span>
+                    </h5>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 items-center justify-center">
+                        <div class="character-img-wrapper"><img src="tekuno1.jpg" alt="Parusuke 1" class="character-img"></div>
+                        <div class="character-img-wrapper"><img src="tekuno2.jpg" alt="Parusuke 2" class="character-img"></div>
+                        <div class="character-img-wrapper"><img src="tekuno5.jpg" alt="Parusuke 3" class="character-img"></div>
                     </div>
                 </div>
                 <div>
-                    <h5 class="char-group-label text-center text-center"><span class="lang-jp text-center">おむすびず</span><span class="lang-en text-center text-center text-center">Omusubi's</span></h5>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center text-center">
-                        <div class="character-img-wrapper text-center text-center"><img src="tekuno3.jpg" alt="Omusubi 1" class="character-img"></div>
-                        <div class="character-img-wrapper text-center text-center"><img src="tekuno4.jpg" alt="Omusubi 2" class="character-img"></div>
-                        <div class="character-img-wrapper text-center text-center text-center"><img src="tekuno15.jpg" alt="Omusubi 3" class="character-img"></div>
+                    <h5 class="char-group-label text-center">
+                        <span class="lang-jp">おむすびず</span>
+                        <span class="lang-en">Omusubi's</span>
+                        <span class="lang-fr">Les Omusubis</span>
+                    </h5>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 items-center justify-center">
+                        <div class="character-img-wrapper"><img src="tekuno3.jpg" alt="Omusubi 1" class="character-img"></div>
+                        <div class="character-img-wrapper"><img src="tekuno4.jpg" alt="Omusubi 2" class="character-img"></div>
+                        <div class="character-img-wrapper"><img src="tekuno15.jpg" alt="Omusubi 3" class="character-img"></div>
                     </div>
                 </div>
                 <div>
-                    <h5 class="char-group-label text-center text-center text-center text-center"><span class="lang-jp text-center text-center">ふぇありーふれんず</span><span class="lang-en text-center text-center text-center text-center">Fairy Friends</span></h5>
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-12 items-start justify-center text-center text-center">
-                        <div class="flex flex-col items-center"><div class="character-img-wrapper"><img src="tekuno6.jpg" alt="Tamayo" class="character-img"></div><p class="char-name-label">美肌の妖精タマヨ<br>skin Fairy Tamayo</p></div>
-                        <div class="flex flex-col items-center text-center"><div class="character-img-wrapper"><img src="tekuno7.jpg" alt="Komoroshi" class="character-img"></div><p class="char-name-label">穀物の妖精コモロシ<br>Cereal Fairy Komoroshi</p></div>
-                        <div class="flex flex-col items-center text-center"><div class="character-img-wrapper"><img src="tekuno8.jpg" alt="Lea" class="character-img"></div><p class="char-name-label text-center">森の妖精リーフ<br>Forest Fairy lea</p></div>
-                        <div class="flex flex-col items-center text-center text-center"><div class="character-img-wrapper"><img src="tekuno9.jpg" alt="Lala" class="character-img"></div><p class="char-name-label text-center">音楽の妖精ララフラン<br>Music Fairy Lala fran</p></div>
-                        <div class="flex flex-col items-center text-center text-center text-center"><div class="character-img-wrapper"><img src="tekuno10.jpg" alt="Nyu" class="character-img"></div><p class="char-name-label text-center">お風呂の妖精にゅう·ようく<br>Bath Fairy Nyu·youku</p></div>
-                        <div class="flex flex-col items-center text-center text-center text-center text-center"><div class="character-img-wrapper text-center"><img src="tekuno11.jpg" alt="Riki" class="character-img"></div><p class="char-name-label text-center">力の妖精リキ<br>Power Fairy Riki</p></div>
-                        <div class="flex flex-col items-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper text-center"><img src="tekuno12.jpg" alt="Natsumi" class="character-img"></div><p class="char-name-label text-center">おしゃれの妖精ナツミ<br>Fashion Fairy Natsum</p></div>
-                        <div class="flex flex-col items-center text-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper text-center"><img src="tekuno13.jpg" alt="Tsuyumi" class="character-img"></div><p class="char-name-label text-center">電波の妖精ツユミ<br>Wave Fairy Tsuyumi</p></div>
-                        <div class="flex flex-col items-center text-center text-center text-center text-center text-center text-center text-center"><div class="character-img-wrapper text-center"><img src="tekuno14.jpg" alt="Nondeka" class="character-img"></div><p class="char-name-label text-center">お酒の妖精ノンデカ·エール<br>Alcohol Fairy ale</p></div>
+                    <h5 class="char-group-label text-center text-center">
+                        <span class="lang-jp">ふぇありーふれんず</span>
+                        <span class="lang-en">Fairy Friends</span>
+                        <span class="lang-fr">Amis Fées</span>
+                    </h5>
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-12 items-start justify-center">
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno6.jpg" alt="Tamayo" class="character-img"></div>
+                            <p class="char-name-label">
+                                <span class="lang-jp">美肌の妖精タマヨ</span>
+                                <span class="lang-en">Beautiful skin Fairy Tamayo</span>
+                                <span class="lang-fr">Fée à la belle peau Tamayo</span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno7.jpg" alt="Komoroshi" class="character-img"></div>
+                            <p class="char-name-label">
+                                <span class="lang-jp">穀物の妖精コモロシ</span>
+                                <span class="lang-en">Cereal Fairy Komoroshi</span>
+                                <span class="lang-fr">Fée des céréales Komoroshi</span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno8.jpg" alt="Lea" class="character-img"></div>
+                            <p class="char-name-label">
+                                <span class="lang-jp">森の妖精リーフ</span>
+                                <span class="lang-en">Forest Fairy lea</span>
+                                <span class="lang-fr">Fée de la forêt lea</span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno9.jpg" alt="Lala" class="character-img"></div>
+                            <p class="char-name-label">
+                                <span class="lang-jp">音楽の妖精ララフラン</span>
+                                <span class="lang-en">Music Fairy Lala fran</span>
+                                <span class="lang-fr">Fée de la musique Lala fran</span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno10.jpg" alt="Nyu" class="character-img"></div>
+                            <p class="char-name-label">
+                                <span class="lang-jp">お風呂の妖精にゅう·ようく</span>
+                                <span class="lang-en">Bath Fairy Nyu·youku</span>
+                                <span class="lang-fr">Fée du bain Nyu·youku</span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno11.jpg" alt="Riki" class="character-img"></div>
+                            <p class="char-name-label text-center">
+                                <span class="lang-jp">力の妖精リキ</span>
+                                <span class="lang-en">Power Fairy Riki</span>
+                                <span class="lang-fr">Fée de la force Riki</span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno12.jpg" alt="Natsumi" class="character-img"></div>
+                            <p class="char-name-label text-center">
+                                <span class="lang-jp">おしゃれの妖精ナツミ</span>
+                                <span class="lang-en">Fashion Fairy Natsum</span>
+                                <span class="lang-fr">Fée de la mode Natsumi</span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno13.jpg" alt="Tsuyumi" class="character-img"></div>
+                            <p class="char-name-label text-center">
+                                <span class="lang-jp">電波の妖精ツユミ</span>
+                                <span class="lang-en">Wave Fairy Tsuyumi</span>
+                                <span class="lang-fr">Fée des ondes Tsuyumi</span>
+                            </p>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="character-img-wrapper"><img src="tekuno14.jpg" alt="Nondeka" class="character-img"></div>
+                            <p class="char-name-label text-center">
+                                <span class="lang-jp">お酒の妖精ノンデカ·エール</span>
+                                <span class="lang-en">Alcohol Fairy Nondeka·ale</span>
+                                <span class="lang-fr">Fée de l'alcool Nondeka·ale</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="text-center max-w-5xl mx-auto pt-12 text-center text-center text-center text-center">
-                    <h4 class="text-2xl font-bold text-gray-900 mb-6 text-center w-full block text-center text-center">
-                        <span class="lang-jp text-center text-center">食と文化の親善大使たち</span><span class="lang-en text-center text-center">Food & Culture Ambassadors</span>
+                <div class="text-center max-w-5xl mx-auto pt-12">
+                    <h4 class="text-2xl font-bold text-gray-900 mb-6">
+                        <span class="lang-jp">食と文化の親善大使たち</span>
+                        <span class="lang-en">Food & Culture Ambassadors</span>
+                        <span class="lang-fr">Ambassadeurs de la Cuisine et de la Culture</span>
                     </h4>
                     <p class="text-gray-500 text-base md:text-lg font-light leading-relaxed">
-                        <span class="lang-jp text-center text-center text-center text-center">日本人のソウルフードを体現するキャラクターや妖精たち。名撫月テクノさんが描く、個性豊かな「食と文化の親善大使」たちです。<br />世界でも類を見ない「ジンベイザメと間近で触れ合える特別な場所」であるセブ島の海で、仲間たちがジンベイザメと遊んでいる姿など、SAKURA BLOOM 2026のために描き下ろされた心温まる場面が登場します。</span>
-                        <span class="lang-en text-center text-center text-center">Heartwarming ambassadors by Techno Nanatsuki, depicted playing with whale sharks in Cebu's unique waters—specially created for "SAKURA BLOOM 2026."</span>
+                        <span class="lang-jp">日本人のソウルフードを体現するキャラクターや妖精たち。名撫月テクノさんが描く、個性豊かな「食と文化の親善大使」たちです。<br />世界でも類を見ない「ジンベイザメと間近で触れ合える特別な場所」であるセブ島の海で、仲間たちがジンベイザメと遊んでいる姿など、SAKURA BLOOM 2026のために描き下ろされた心温まる場面が登場します。</span>
+                        <span class="lang-en">Heartwarming ambassadors by Techno Nanatsuki, depicted playing with whale sharks in Cebu's unique waters—specially created for "SAKURA BLOOM 2026."</span>
+                        <span class="lang-fr">Des personnages et fées incarnant la "soul food" japonaise. Ce sont les "Ambassadeurs de la Cuisine et de la Culture" uniques dessinés par Techno Nanatsuki. Des scènes réconfortantes spécialement créées pour "SAKURA BLOOM 2026" seront présentées, montrant les personnages jouant avec des requins-baleines dans les eaux uniques de Cebu.</span>
                     </p>
                 </div>
             </div>
@@ -514,70 +659,79 @@
     </section>
 
     <!-- 5. Support Artist Section (LAST) -->
-    <section class="relative z-10 max-w-6xl mx-auto py-32 px-8 border-t border-gray-100 text-center text-center text-center text-center text-center">
-        <header class="text-center mb-16 text-center text-center text-center text-center">
-            <h2 class="text-xs tracking-[0.5em] uppercase text-pink-500 font-bold mb-4 text-center w-full block text-center text-center">Support Artist</h2>
-            <h3 class="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter text-center w-full block text-center text-center text-center">
-                <span class="lang-jp text-center text-center text-center">日本から応援アーティスト</span>
-                <span class="lang-en text-center text-center text-center text-center">Supporting Artist from Japan</span>
+    <section class="relative z-10 max-w-6xl mx-auto py-32 px-8 border-t border-gray-100 text-center">
+        <header class="mb-16">
+            <h2 class="text-xs tracking-[0.5em] uppercase text-pink-500 font-bold mb-4">Support Artist</h2>
+            <h3 class="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter">
+                <span class="lang-jp">日本から応援アーティスト</span>
+                <span class="lang-en">Supporting Artist from Japan</span>
+                <span class="lang-fr">Artiste de Soutien du Japon</span>
             </h3>
         </header>
 
-        <div class="max-w-4xl mx-auto text-center text-center text-center">
-            <div class="glass-card p-10 md:p-16 rounded-[4rem] text-center border-pink-50">
+        <div class="max-w-4xl mx-auto">
+            <div class="glass-card p-10 md:p-16 rounded-[4rem] border-pink-50 text-center">
                 <p class="text-pink-500 font-bold tracking-widest text-sm mb-4 uppercase text-center w-full block text-pink-600">CAT Affiliation</p>
                 
-                <!-- Artist Profile Image UPDATED -->
-                <div class="mb-10 flex justify-center text-center">
+                <div class="mb-10 flex justify-center">
                     <div class="w-44 h-44 md:w-60 md:h-60 rounded-full overflow-hidden border-4 border-white shadow-2xl shadow-pink-200/50">
                         <img src="rikoazuma.jpg" alt="Riko Azuna" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x400?text=Riko+Azuna'">
                     </div>
                 </div>
 
-                <h4 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center text-center">
-                    <span class="lang-jp text-center text-center">安月名莉子さん</span><span class="lang-en text-center text-center">Riko Azuna</span>
+                <h4 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+                    <span class="lang-jp">安月名莉子さん</span>
+                    <span class="lang-en">Riko Azuna</span>
+                    <span class="lang-fr">Riko Azuna</span>
                 </h4>
-                <div class="w-12 h-px bg-pink-200 mx-auto mb-8 text-center text-center text-center text-center"></div>
-                <div class="text-gray-600 text-lg font-light leading-relaxed mb-10 space-y-4 text-center">
+                <div class="w-12 h-px bg-pink-200 mx-auto mb-8"></div>
+                <div class="text-gray-600 text-lg font-light leading-relaxed mb-10 space-y-4">
                     <p>
-                        <span class="lang-jp text-center block text-center text-center text-center text-center">アニメ『やがて君になる』『メイドインアビス 烈日の黄金郷』『蜘蛛ですが、なにか？』など、数々の人気作品で主題歌を担当する実力派アーティスト、安月名莉子さんが本プロジェクトに参画。</span>
-                        <span class="lang-en text-center block text-center text-center text-center text-center">Riko Azuna, a highly acclaimed artist known for theme songs of popular anime such as "Bloom Into You," "Made in Abyss," and "So I'm a Spider, So What?," joins this project.</span>
+                        <span class="lang-jp">アニメ『やがて君になる』『メイドインアビス 烈日の黄金郷』『蜘蛛ですが、なにか？』など、数々の人気作品で主題歌を担当する実力派アーティスト、安月名莉子さんが本プロジェクトに参画。</span>
+                        <span class="lang-en">Riko Azuna, known for theme songs of popular anime like "Made in Abyss," joins this project to support Cebu through her powerful voice.</span>
+                        <span class="lang-fr">Riko Azuna, une artiste talentueuse connue pour les chansons thèmes d'anime populaires tels que "Bloom Into You", "Made in Abyss" et "So I'm a Spider, So What?", rejoint ce projet.</span>
                     </p>
                     <p>
-                        <span class="lang-jp text-gray-800 font-medium text-center block text-center text-center text-center">その圧倒的な歌唱力と瑞々しい表現力で、フィリピン・セブ島へ日本の魂と熱いエールを届け、子どもたちの未来を応援します。</span>
-                        <span class="lang-en text-gray-800 font-medium text-center text-center text-center">With her powerful vocals and vibrant expression, she delivers Japan's soul and warm encouragement to Cebu, supporting the future of the children.</span>
+                        <span class="lang-jp">その圧倒的な歌唱力と瑞々しい表現力で、フィリピン・セブ島へ日本の魂と熱いエールを届け、子どもたちの未来を応援します。</span>
+                        <span class="lang-en">With her powerful vocals, she delivers Japan's soul and warm encouragement to the children of Cebu.</span>
+                        <span class="lang-fr">Avec sa voix puissante et son expression vibrante, elle transmet l'âme du Japon et ses encouragements chaleureux à Cebu, soutenant l'avenir des enfants.</span>
                     </p>
                 </div>
                 
-                <div class="flex flex-wrap justify-center gap-4 text-center text-center text-center text-center">
-                    <a href="https://azuna-riko.com" target="_blank" class="px-8 py-4 bg-gray-900 text-white rounded-full font-bold hover:bg-pink-600 transition-all shadow-xl shadow-pink-100 text-center">公式サイト / Website</a>
-                    <a href="https://m.youtube.com/@安月名莉子ちゃんねる" target="_blank" class="px-8 py-4 bg-white border-2 border-gray-900 text-gray-900 rounded-full font-bold hover:bg-red-50 hover:text-red-600 shadow-xl transition-all text-center">YouTube</a>
-                    <a href="https://cat-ent.jp/production.html" target="_blank" class="px-8 py-4 bg-gray-100 text-gray-600 rounded-full font-bold hover:bg-pink-100 transition-all text-xs text-center">CAT Entertainment</a>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://azuna-riko.com" target="_blank" class="px-8 py-4 bg-gray-900 text-white rounded-full font-bold hover:bg-pink-600 transition-all shadow-xl shadow-pink-100">
+                        <span class="lang-jp">公式サイト</span>
+                        <span class="lang-en">Website</span>
+                        <span class="lang-fr">Site Web</span>
+                    </a>
+                    <a href="https://m.youtube.com/@安月名莉子ちゃんねる" target="_blank" class="px-8 py-4 bg-white border-2 border-gray-900 text-gray-900 rounded-full font-bold hover:bg-red-50 hover:border-red-600 shadow-xl transition-all">YouTube</a>
+                    <a href="https://cat-ent.jp/production.html" target="_blank" class="px-8 py-4 bg-gray-100 text-gray-600 rounded-full font-bold hover:bg-pink-100 transition-all text-xs">CAT Entertainment</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Closing Message -->
-    <section class="relative z-10 max-w-5xl mx-auto py-48 px-8 text-center text-center text-center text-center text-center text-center">
-        <div class="w-12 h-1 bg-pink-200 mx-auto mb-16 text-center text-center text-center text-center"></div>
-        <p class="text-2xl md:text-4xl font-bold text-gray-900 leading-snug mb-16 tracking-tighter text-center text-center">
-            <span class="lang-jp text-center text-center">エンターテインメントを通じて現地の親子に日常のワクワクを届け、コミュニティへの人道支援を促進する。</span>
-            <span class="lang-en text-center text-center">Delivering everyday excitement to families in Cebu and promoting humanitarian support through the power of entertainment.</span>
+    <section class="relative z-10 max-w-5xl mx-auto py-48 px-8 text-center text-center text-center text-center">
+        <div class="w-12 h-1 bg-pink-200 mx-auto mb-16"></div>
+        <p class="text-2xl md:text-4xl font-bold text-gray-900 leading-snug mb-16 tracking-tighter">
+            <span class="lang-jp">エンターテインメントを通じて現地の親子に日常のワクワクを届け、コミュニティへの人道支援を促進する。</span>
+            <span class="lang-en">Delivering everyday excitement to families in Cebu and promoting humanitarian support through the power of entertainment.</span>
+            <span class="lang-fr">Apporter de l'excitation quotidienne aux familles locales grâce au divertissement et promouvoir l'aide humanitaire à la communauté.</span>
         </p>
-        <p class="text-pink-600 text-xl font-black tracking-[0.2em] italic text-center text-center text-center">
-            <span class="lang-jp text-center text-center text-center">これが、私たちが挑戦する「キャラクター × 人道支援」の新たなステージです。</span>
-            <span class="lang-en text-center text-center text-center">A NEW STAGE FOR "CHARACTERS x HUMANITARIAN AID."</span>
+        <p class="text-pink-600 text-xl font-black tracking-[0.2em] italic">
+            <span class="lang-jp">これが、私たちが挑戦する「キャラクター × 人道支援」の新たなステージです。</span>
+            <span class="lang-en">A NEW STAGE FOR "CHARACTERS x HUMANITARIAN AID."</span>
+            <span class="lang-fr">C'EST UNE NOUVELLE ÉTAPE POUR "PERSONNAGES x AIDE HUMANITAIRE."</span>
         </p>
     </section>
 
-    <!-- Footer -->
-    <footer class="relative z-10 py-24 border-t border-gray-100 text-center bg-white text-center text-center text-center text-center">
-        <div class="mb-12 opacity-50 hover:opacity-100 transition-all transform hover:scale-105 text-center text-center text-center text-center">
+    <footer class="relative z-10 py-24 border-t border-gray-100 text-center bg-white">
+        <div class="mb-12 opacity-50 hover:opacity-100 transition-all transform hover:scale-105">
             <a href="https://shining-planner.jp/"><img src="shiningplanner.jpg" alt="logo footer" class="w-24 h-24 mx-auto grayscale" onerror="this.style.display='none'"></a>
         </div>
-        <p class="text-gray-400 text-[10px] tracking-[0.6em] uppercase mb-4 text-center">Shining Planner Co., Ltd.</p>
-        <p class="text-gray-300 text-[10px] tracking-widest font-light text-center">© 2024 Shining Planner株式会社. All Rights Reserved.</p>
+        <p class="text-gray-400 text-[10px] tracking-[0.6em] uppercase mb-4">Shining Planner Co., Ltd.</p>
+        <p class="text-gray-300 text-[10px] tracking-widest font-light">© 2024 Shining Planner株式会社. All Rights Reserved.</p>
     </footer>
 
     <script>
@@ -585,7 +739,7 @@
         const ctx = canvas.getContext('2d');
         const orbitContainer = document.getElementById('creator-orbit-container');
 
-        // --- 全てのキャラクター画像リスト (合計37枚) ---
+        // --- 全てのキャラクター画像リスト (計37枚) ---
         const creatorImages = [
             'sumesyari1.jpg', 'sumesyari2.jpg', 'sumesyari3.jpg', 'sumesyari4.jpg', 'sumesyari5.jpg', 'sumeshari6.jpg', 'sumesyari7.jpg',
             'gaogao1.jpg', 'gaogao2.jpg', 'gaogao3.jpg', 'gaogao4.jpg', 'gaogao5.jpg', 'gaogao6.jpg', 'gaogao7.jpg', 'gaogao8.jpg', 'gaogao9.jpg', 'gaogao10.jpg', 'gaogao11.jpg', 'gaogao12.jpg', 'gaogao13.jpg', 'gaogao14.jpg', 'gaogao15.jpg',
@@ -620,6 +774,7 @@
             document.body.setAttribute('data-lang', lang);
             document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
         }
 
         let particles = [];
