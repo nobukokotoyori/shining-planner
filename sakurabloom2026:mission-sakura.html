@@ -1,553 +1,324 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  CheckCircle2, 
-  Gamepad2, 
-  Search, 
-  BookOpen, 
-  Star, 
-  ChevronRight, 
-  Trophy,
-  Heart,
-  Globe,
-  Music,
-  Smile,
-  Zap,
-  MapPin,
-  Waves,
-  Gift,
-  UtensilsCrossed,
-  Sparkles,
-  HandHelping,
-  MessageCircle,
-  Eye,
-  Coffee,
-  Leaf,
-  PenTool,
-  Share2,
-  Twitter,
-  Facebook,
-  Instagram,
-  Send
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MISSION 「SAKURA」 Hub</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .text-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(-5%); }
+            50% { transform: translateY(0); }
+        }
+        .animate-bounce-slow { animation: bounce-slow 2s infinite; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+    <div id="root"></div>
 
-// Custom TikTok Icon
-const TikTokIcon = ({ size = 24, className = "" }) => (
-  <svg 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className={className}
-  >
-    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
-  </svg>
-);
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-const App = () => {
-  const totalMissions = 15;
-  const [completed, setCompleted] = useState(
-    Object.fromEntries(Array.from({ length: totalMissions }, (_, i) => [`mission${i + 1}`, false]))
-  );
-  const [showReward, setShowReward] = useState(false);
-  const [message, setMessage] = useState('');
-  const [tapCount, setTapCount] = useState(0);
+        // Custom SVG Icons
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const icons = {
+                Heart: <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />,
+                Share2: <React.Fragment><circle cx="18" cy="5" r="3" /><path d="M15 7l-6 3" /><circle cx="6" cy="12" r="3" /><path d="M9 14l6 3" /><circle cx="18" cy="19" r="3" /></React.Fragment>,
+                PenTool: <React.Fragment><path d="m12 19 7-7 3 3-7 7-3-3Z" /><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5Z" /><path d="m2 2 5 2.25L11 6" /></React.Fragment>,
+                Leaf: <React.Fragment><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a7 7 0 0 1-10 10Z" /><path d="M21 2c-2 2-5 5-10 10" /></React.Fragment>,
+                Star: <path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />,
+                BookOpen: <React.Fragment><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></React.Fragment>,
+                Search: <React.Fragment><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></React.Fragment>,
+                Utensils: <React.Fragment><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></React.Fragment>,
+                Zap: <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />,
+                Waves: <React.Fragment><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" /><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" /><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" /></React.Fragment>,
+                Globe: <React.Fragment><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></React.Fragment>,
+                Music: <React.Fragment><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></React.Fragment>,
+                Trophy: <React.Fragment><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></React.Fragment>,
+                Check: <path d="M20 6L9 17l-5-5" />,
+                Twitter: <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />,
+                Facebook: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />,
+                Instagram: <React.Fragment><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></React.Fragment>,
+                TikTok: <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />,
+                Send: <React.Fragment><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></React.Fragment>
+            };
+            return (
+                <svg 
+                    width={size} 
+                    height={size} 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    className={className}
+                >
+                    {icons[name]}
+                </svg>
+            );
+        };
 
-  const progress = Object.values(completed).filter(Boolean).length;
-  const shareUrl = "https://shining-planner.jp/sakurabloom2026";
-  const shareText = "I'm on a MISSION 「SAKURA」! I became a KIZUNA Hero in Cebu! 🌸 #SakuraBloom2026 #KIZUNAHero";
+        const App = () => {
+            const totalMissions = 15;
+            const [completed, setCompleted] = useState(
+                Object.fromEntries(Array.from({ length: totalMissions }, (_, i) => [`mission${i + 1}`, false]))
+            );
+            const [showReward, setShowReward] = useState(false);
+            const [message, setMessage] = useState('');
+            const [tapCount, setTapCount] = useState(0);
 
-  const handleComplete = (id) => {
-    if (completed[id]) return;
-    setCompleted(prev => ({ ...prev, [id]: true }));
-    setMessage(`MISSION COMPLETE! / ミッション完了！`);
-    setTimeout(() => setMessage(''), 2000);
-  };
+            const progress = Object.values(completed).filter(Boolean).length;
+            const shareUrl = "https://shining-planner.jp/sakurabloom2026";
+            const shareText = "I'm on a MISSION 「SAKURA」! I became a KIZUNA Hero in Cebu! 🌸 #SakuraBloom2026 #KIZUNAHero";
 
-  const openShare = (platform) => {
-    let url = "";
-    if (platform === 'x') {
-      url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
-    } else if (platform === 'fb') {
-      url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-    } else {
-      url = shareUrl;
-      const tempInput = document.createElement('input');
-      tempInput.value = shareUrl;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      setMessage('Link Copied! / リンクをコピーしたよ！');
-    }
-    if (url && url !== shareUrl) window.open(url, '_blank');
-  };
+            const handleComplete = (id) => {
+                if (completed[id]) return;
+                setCompleted(prev => ({ ...prev, [id]: true }));
+                setMessage(`MISSION COMPLETE! / ミッション完了！`);
+                setTimeout(() => setMessage(''), 2000);
+            };
 
-  useEffect(() => {
-    if (progress === totalMissions) {
-      setShowReward(true);
-    }
-  }, [progress]);
+            const openShare = (platform) => {
+                let url = "";
+                if (platform === 'x') {
+                    url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+                } else if (platform === 'fb') {
+                    url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+                } else {
+                    const tempInput = document.createElement('input');
+                    tempInput.value = shareUrl;
+                    document.body.appendChild(tempInput);
+                    tempInput.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempInput);
+                    setMessage('Link Copied! / リンクをコピーしたよ！');
+                    return;
+                }
+                window.open(url, '_blank');
+            };
 
-  const missionsData = [
-    {
-      id: 'mission1',
-      type: 'STAGE 1: Love / 愛',
-      title: 'Smile at your friends! / 友達を笑顔にしよう！',
-      taskLabel: 'Mission 01',
-      icon: Heart,
-      description: 'Make your family or friends happy! Saying Thank you is the first step to changing the world. Did you make someone smile today? / 家族や友達をハッピーにしよう！「ありがとう」を言うことが世界を変える第一歩。今日、誰かを笑顔にできたかな？',
-      color: 'bg-rose-400',
-      component: <button onClick={() => handleComplete('mission1')} className="w-full py-3 bg-rose-500 text-white rounded-xl font-bold shadow-md transform active:scale-95 transition-all text-sm uppercase">I made someone happy! / 笑顔を届けたよ！</button>
-    },
-    {
-      id: 'mission2',
-      type: 'STAGE 2: Connection / 繋',
-      title: 'Spread the circle of friendship! / 友情の輪を広げよう！',
-      taskLabel: 'Mission 02',
-      icon: Share2,
-      description: 'Share this fun mission with your friends on SNS! Your post becomes a bridge to a better future. / この楽しいミッションをSNSでみんなに教えよう！あなたの投稿が、明るい未来への架け橋になります。',
-      color: 'bg-blue-400',
-      component: (
-        <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-2">
-            <button onClick={() => { openShare('x'); handleComplete('mission2'); }} className="py-3 bg-black text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-sm text-xs">
-              <Twitter size={16} /> X (Twitter)
-            </button>
-            <button onClick={() => { openShare('fb'); handleComplete('mission2'); }} className="py-3 bg-[#1877F2] text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-sm text-xs">
-              <Facebook size={16} /> Facebook
-            </button>
-            <button onClick={() => { openShare('ig'); handleComplete('mission2'); }} className="py-3 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-sm text-xs">
-              <Instagram size={16} /> Instagram
-            </button>
-            <button onClick={() => { openShare('tt'); handleComplete('mission2'); }} className="py-3 bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 shadow-sm text-xs">
-              <TikTokIcon size={16} /> TikTok
-            </button>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'mission3',
-      type: 'STAGE 3: Creativity / 創',
-      title: 'Share your talent! / 才能を分かち合う喜び',
-      taskLabel: 'Mission 03',
-      icon: PenTool,
-      description: 'Help with the event, or show us your singing and dancing! Everyone has a special talent to share. / 準備を手伝ったり、歌やダンスで盛り上げよう！みんなが持っている「得意」を誰かのために使ってみて。',
-      color: 'bg-purple-400',
-      component: <button onClick={() => handleComplete('mission3')} className="w-full py-3 bg-purple-500 text-white rounded-xl font-bold shadow-md text-sm uppercase">I did my best! / 全力を出したよ！</button>
-    },
-    {
-      id: 'mission4',
-      type: 'STAGE 4: Purity / 清',
-      title: 'Keep Cebu Beautiful! / セブを綺麗にしよう！',
-      taskLabel: 'Mission 04',
-      icon: Leaf,
-      description: 'Pick up trash and make Mactan Newtown shine! Helping the Earth is a great way to earn points. / ゴミを拾って、街をピカピカにしよう！地球に優しくすることは、最高にカッコいい行いです。',
-      color: 'bg-emerald-400',
-      component: <button onClick={() => handleComplete('mission4')} className="w-full py-3 bg-emerald-500 text-white rounded-xl font-bold shadow-md text-sm uppercase">I cleaned up! / お掃除したよ！</button>
-    },
-    {
-      id: 'mission5',
-      type: 'STAGE 5: Prayer / 祈',
-      title: 'Dream for the future! / 未来の夢を描こう！',
-      taskLabel: 'Mission 05',
-      icon: Star,
-      description: 'Take a quiet minute and think about your Life Mission. What do you want to be in the future? / 静かに1分間、自分の「夢（志）」を考えてみよう。将来、どんな自分になりたいかな？',
-      color: 'bg-indigo-400',
-      component: <button onClick={() => handleComplete('mission5')} className="w-full py-3 bg-indigo-500 text-white rounded-xl font-bold shadow-md text-sm uppercase">I found my dream! / 夢を誓ったよ！</button>
-    },
-    {
-      id: 'mission6',
-      type: 'STAGE 6: Wisdom / 学',
-      title: 'Learn something new! / 新しいことを知ろう！',
-      taskLabel: 'Mission 06',
-      icon: BookOpen,
-      description: 'Visit the KIZUNA Exhibition and discover Japanese culture! Learning is the key to opening new doors. / 展示を見て、日本の文化に触れてみよう！「知る」ことは、新しい世界への扉を開く鍵になります。',
-      color: 'bg-amber-500',
-      component: <button onClick={() => handleComplete('mission6')} className="w-full py-3 bg-amber-600 text-white rounded-xl font-bold shadow-md text-sm uppercase">I learned a lot! / たくさん学んだよ！</button>
-    },
-    {
-      id: 'mission7',
-      type: 'STAGE 7: Pay It Forward / 送',
-      title: 'Pass on the good energy! / 元気のバトンタッチ！',
-      taskLabel: 'Mission 07',
-      icon: Heart,
-      description: 'Give a high-five or a kind word to a friend playing this game! Passing on your energy is a great Pay It Forward. / このゲームで遊んでいる友達とハイタッチしたり、「頑張れ！」と声をかけよう！元気のお裾分けも立派な恩送り。',
-      color: 'bg-rose-500',
-      component: <button onClick={() => handleComplete('mission7')} className="w-full py-3 bg-rose-600 text-white rounded-xl font-bold shadow-md transform active:scale-95 transition-all text-sm uppercase">I passed on my energy! / 友達と元気を繋いだ！</button>
-    },
-    {
-      id: 'mission8',
-      type: 'Japan Quiz / 日本クイズ',
-      title: 'Sakura Season / 日本で見れる桜の季節',
-      taskLabel: 'Mission 08',
-      icon: Search,
-      description: 'Japan has four beautiful seasons. When is the best time to see Sakura in Japan? / 日本には美しい四季があります。桜が咲く一番有名な季節はいつかな？',
-      color: 'bg-rose-400',
-      component: (
-        <div className="grid grid-cols-1 gap-2 text-sm font-bold">
-          {[
-            { id: 'a1', label: 'March & April / 3月・4月', correct: true },
-            { id: 'a2', label: 'July & August / 7月・8月', correct: false },
-            { id: 'a3', label: 'January & February / 1月・2月', correct: false }
-          ].map(ans => (
-            <button 
-              key={ans.id} 
-              onClick={() => ans.correct && handleComplete('mission8')} 
-              className="p-3 border-2 rounded-xl hover:bg-rose-50 text-left transition-colors"
-            >
-              {ans.label}
-            </button>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 'mission9',
-      type: 'Food / グルメ',
-      title: 'Energize with Sutadon! / すた丼を食べて元気になろう！',
-      taskLabel: 'Mission 09',
-      icon: UtensilsCrossed,
-      description: 'Try the famous Japanese soul food bowl to charge your spirit! Who do you want to see happy and healthy with this food? / 日本のソウルフード「伝説のすた丼屋」でパワーをチャージ！誰にこの丼を食べてハッピーになってほしいかな？',
-      color: 'bg-yellow-600',
-      component: (
-        <div className="grid grid-cols-1 gap-2 text-sm font-bold">
-          {['Cebu Children / セブの子供たち', 'Only Me / 自分だけ', 'Aliens / 宇宙人'].map(ans => (
-            <button key={ans} onClick={() => ans.includes('Cebu') && handleComplete('mission9')} className="p-3 border-2 rounded-xl hover:bg-yellow-50 text-left">
-              {ans}
-            </button>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 'mission10',
-      type: 'Mini Game / ミニゲーム',
-      title: 'Power Tap! / パワー・タップ！',
-      taskLabel: 'Mission 10',
-      icon: Zap,
-      description: 'Omusubis need your help! Tap the button 10 times to send them energy! / おむすびずを応援しよう！ボタンを10回連打してパワーを送れ！',
-      color: 'bg-orange-400',
-      component: (
-        <button 
-          onClick={() => {
-            const next = tapCount + 1;
-            setTapCount(next);
-            if (next >= 10) handleComplete('mission10');
-          }}
-          disabled={completed.mission10}
-          className={`w-full py-4 rounded-xl font-black text-xl transition-all ${completed.mission10 ? 'bg-gray-100 text-gray-400' : 'bg-orange-500 text-white shadow-lg active:scale-95'}`}
-        >
-          {completed.mission10 ? 'POWER MAX! / 満タン！' : `TAP!! (${tapCount}/10)`}
-        </button>
-      )
-    },
-    {
-      id: 'mission11',
-      type: 'Sea Quiz / 海のクイズ',
-      title: 'The Big Fish / 大きなお魚',
-      taskLabel: 'Mission 11',
-      icon: Waves,
-      description: 'Which giant fish can you swim with in Cebu? / セブ島で一緒に泳げる、世界最大の魚は何？',
-      color: 'bg-blue-400',
-      component: (
-        <div className="grid grid-cols-1 gap-2 text-sm">
-          {['Whale Shark / ジンベイザメ', 'Dolphin / イルカ', 'Crab / カニ'].map(ans => (
-            <button key={ans} onClick={() => ans.includes('Whale') && handleComplete('mission11')} className="p-3 border-2 rounded-xl hover:bg-blue-50 font-bold text-left flex justify-between text-sm">
-              {ans} <ChevronRight size={18}/>
-            </button>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 'mission12',
-      type: 'Nature / 自然',
-      title: 'Save the Ocean / 海を守ろう',
-      taskLabel: 'Mission 12',
-      icon: Globe,
-      description: 'Who is happy when we fix the corals in the sea? / サンゴを元気にすると、誰が喜ぶかな？',
-      color: 'bg-cyan-500',
-      component: (
-        <div className="grid grid-cols-1 gap-2 text-sm">
-          {['Fishes & Sea Life / 海の生き物たち', 'Cars / 車', 'Robots / ロボット'].map(ans => (
-            <button key={ans} onClick={() => ans.includes('Fishes') && handleComplete('mission12')} className="p-3 border-2 rounded-xl hover:bg-cyan-50 font-bold text-left">
-              {ans}
-            </button>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 'mission13',
-      type: 'Music / 音楽',
-      title: 'Riko\'s Magic Voice / 安月名莉子さんの魔法の歌',
-      taskLabel: 'Mission 13',
-      icon: Music,
-      description: 'What does Riko Azuna bring to Cebu through her music? / 安月名莉子さんの歌は、セブに何を届けてくれる？',
-      color: 'bg-purple-400',
-      component: (
-        <div className="grid grid-cols-1 gap-2 text-sm">
-          {['Smiles & Energy / 笑顔と元気', 'Sleeping Dust / 眠気', 'Homework / 宿題'].map(ans => (
-            <button key={ans} onClick={() => ans.includes('Smiles') && handleComplete('mission13')} className="p-3 border-2 rounded-xl hover:bg-purple-50 font-bold text-left">
-              {ans}
-            </button>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 'mission14',
-      type: 'Friends / 仲間たち',
-      title: 'Who is this? / これだーれだ？',
-      taskLabel: 'Mission 14',
-      icon: Star,
-      description: 'A cute rice-ball friend with seaweed. Can you name them? / 三角形のお米に海苔がついた仲間、なまえは何？',
-      color: 'bg-slate-500',
-      component: (
-        <div className="grid grid-cols-1 gap-2 text-sm font-bold">
-          {['Omusubis / おむすびず', 'Sushis / おすし', 'Bread / パン'].map(ans => (
-            <button key={ans} onClick={() => ans.includes('Omusubis') && handleComplete('mission14')} className="p-3 border-2 rounded-xl hover:bg-slate-50 text-left">
-              {ans}
-            </button>
-          ))}
-        </div>
-      )
-    },
-    {
-      id: 'mission15',
-      type: 'Final Adventure / 最後の冒険',
-      title: 'Find 32 Characters! / 32キャラをみつけよう！',
-      taskLabel: 'Mission 15',
-      icon: Search,
-      description: '32 characters are hiding in Mactan Newtown! Can you find them all? / 街の中に隠れた32人の仲間を全員見つけられるかな？達成したらご褒美があるよ！',
-      color: 'bg-red-600',
-      component: (
-        <div className="space-y-4">
-          <div className="p-4 bg-red-50 border-2 border-red-200 rounded-2xl text-red-700 text-xs font-bold shadow-inner text-center">
-            <p className="mb-2 uppercase tracking-tighter">Area: All over Mactan Newtown / 捜索場所：街じゅう全部！</p>
-            <p>Tell us when you find them all! / みんな見つけたらボタンを押してね！</p>
-          </div>
-          <button 
-            onClick={() => handleComplete('mission15')}
-            className="w-full py-4 bg-red-600 text-white rounded-xl font-black text-lg shadow-lg hover:bg-red-700 transform active:scale-95 transition-all flex items-center justify-center gap-2"
-          >
-            <Trophy size={20} /> I FOUND ALL 32! / 全員みつけたよ！
-          </button>
-        </div>
-      )
-    }
-  ];
+            useEffect(() => {
+                if (progress === totalMissions) {
+                    setShowReward(true);
+                }
+            }, [progress]);
 
-  return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-20 overflow-x-hidden">
-      {/* Official Top Bar */}
-      <div className="bg-slate-900 text-white py-2 text-center text-[9px] font-black tracking-[0.1em] uppercase border-b border-white/10 px-4">
-        SAKURA BLOOM 2026 KIZUNA Exhibition with Shining Planner
-      </div>
+            const missionsData = [
+                { id: 'mission1', type: 'STAGE 1: Love / 愛', title: 'Smile at your friends! / 友達を笑顔にしよう！', icon: 'Heart', desc: 'Make your family or friends happy! Saying Thank you is the first step. / 家族や友達をハッピーにしよう！「ありがとう」を言うことが第一歩。', color: 'bg-rose-400', btn: 'I made someone happy! / 笑顔を届けたよ！' },
+                { id: 'mission2', type: 'STAGE 2: Connection / 繋', title: 'Spread the circle! / 友情の輪を広げよう！', icon: 'Share2', desc: 'Share this mission with your friends on SNS! / この楽しいミッションをSNSでみんなに教えよう！', color: 'bg-blue-400', custom: true },
+                { id: 'mission3', type: 'STAGE 3: Creativity / 創', title: 'Share your talent! / 才能を分かち合おう！', icon: 'PenTool', desc: 'Help with the event, or sing and dance! / 準備を手伝ったり、歌やダンスで盛り上げよう！', color: 'bg-purple-400', btn: 'I did my best! / 全力を出したよ！' },
+                { id: 'mission4', type: 'STAGE 4: Purity / 清', title: 'Keep Cebu Beautiful! / セブを綺麗にしよう！', icon: 'Leaf', desc: 'Pick up trash and make Mactan shine! / ゴミを拾って、街をピカピカにしよう！', color: 'bg-emerald-400', btn: 'I cleaned up! / お掃除したよ！' },
+                { id: 'mission5', type: 'STAGE 5: Prayer / 祈', title: 'Dream for the future! / 未来の夢を描こう！', icon: 'Star', desc: 'Think about your Life Mission. / 将来、どんな自分になりたいかな？', color: 'bg-indigo-400', btn: 'I found my dream! / 夢を誓ったよ！' },
+                { id: 'mission6', type: 'STAGE 6: Wisdom / 学', title: 'Learn something new! / 新しいことを知ろう！', icon: 'BookOpen', desc: 'Discover Japanese culture at the Exhibition! / 展示を見て、日本の文化に触れてみよう！', color: 'bg-amber-500', btn: 'I learned a lot! / たくさん学んだよ！' },
+                { id: 'mission7', type: 'STAGE 7: Pay It Forward / 送', title: 'Pass on the good energy! / 元気のバトンタッチ！', icon: 'Heart', desc: 'Give a high-five or kind words to a friend! / 友達とハイタッチしたり「頑張れ！」と声をかけよう！', color: 'bg-rose-500', btn: 'I passed on my energy! / 友達と元気を繋いだ！' },
+                { id: 'mission8', type: 'Japan Quiz / 日本クイズ', title: 'Sakura Season / 桜の季節', icon: 'Search', desc: 'When is the best time to see Sakura in Japan? / 日本で桜が見れる有名な季節はいつかな？', color: 'bg-rose-400', quiz: true },
+                { id: 'mission9', type: 'Food / グルメ', title: 'Energize with Sutadon! / すた丼で元気になろう！', icon: 'Utensils', desc: 'Who do you want to see happy with Sutadon? / 誰にこの丼を食べてハッピーになってほしいかな？', color: 'bg-yellow-600', choices: ['Kids in Cebu / セブの子供たち', 'Only Me / 自分だけ', 'Aliens / 宇宙人'] },
+                { id: 'mission10', type: 'Mini Game / ミニゲーム', title: 'Power Tap! / パワー・タップ！', icon: 'Zap', desc: 'Tap 10 times to send energy to Omusubis! / 10回連打しておむすびずにパワーを送れ！', color: 'bg-orange-400', tap: true },
+                { id: 'mission11', type: 'Sea Quiz / 海のクイズ', title: 'The Big Fish / 大きなお魚', icon: 'Waves', desc: 'Which giant fish can you swim with in Cebu? / セブ島で一緒に泳げる、世界最大の魚は何？', color: 'bg-blue-400', choices: ['Whale Shark / ジンベイザメ', 'Dolphin / イルカ', 'Crab / カニ'] },
+                { id: 'mission12', type: 'Nature / 自然', title: 'Save the Ocean / 海を守ろう', icon: 'Globe', desc: 'Who is happy when corals are healthy? / サンゴを元気にすると、誰が喜ぶかな？', color: 'bg-cyan-500', choices: ['Fishes / 海の生き物たち', 'Cars / 車', 'Robots / ロボット'] },
+                { id: 'mission13', type: 'Music / 音楽', title: 'Riko\'s Voice / 安月名莉子さんの歌', icon: 'Music', desc: 'What does her music bring to Cebu? / 彼女の歌は、セブに何を届けてくれる？', color: 'bg-purple-400', choices: ['Smiles & Energy / 笑顔と元気', 'Homework / 宿題', 'Rain / 雨'] },
+                { id: 'mission14', type: 'Friends / 仲間たち', title: 'Who is this? / これだーれだ？', icon: 'Star', desc: 'Name the rice-ball friend with seaweed. / 三角形のお米に海苔がついた仲間の名前は？', color: 'bg-slate-500', choices: ['Omusubis / おむすびず', 'Sushis / おすし', 'Bread / パン'] },
+                { id: 'mission15', type: 'Final Adventure / 最後の冒険', title: 'Find 32 Characters! / 32キャラ捜索', icon: 'Search', desc: 'Find all 32 hidden friends in the street! / 街に隠れた32人の仲間を全員見つけられるかな？', color: 'bg-red-600', last: true },
+            ];
 
-      {/* Header */}
-      <header className="bg-gradient-to-r from-pink-400 to-rose-400 text-white pt-10 pb-24 px-6 text-center rounded-b-[4rem] shadow-xl relative border-b-8 border-rose-100">
-        <div className="max-w-2xl mx-auto">
-          <div className="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-[10px] font-bold mb-4 tracking-widest border border-white/30 uppercase">
-             KIZUNA Mission Game
-          </div>
-          <h1 className="text-4xl md:text-5xl font-black mb-2 tracking-tighter italic">MISSION 「SAKURA」</h1>
-          <p className="text-pink-100 font-bold opacity-95 text-sm md:text-base leading-tight">
-            Nurture Virtue and create the future. Complete the KIZUNA Missions! <br/>
-            <span className="text-xs opacity-80 mt-1 block font-medium uppercase tracking-wider">徳を積み、未来を創れ。KIZUNAミッションを遂行せよ！</span>
-          </p>
-        </div>
-        
-        {/* Sutadonya Banner */}
-        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-yellow-400 text-yellow-900 px-6 py-3 rounded-2xl shadow-lg border-2 border-white flex items-center justify-between z-20">
-          <div className="flex items-center gap-2">
-            <UtensilsCrossed size={18} className="text-yellow-800" />
-            <span className="font-black text-xs italic uppercase tracking-tighter">Clear Reward: Free Sutadon Bowl! / すた丼プレゼント！</span>
-          </div>
-          <div className="text-[9px] font-black bg-yellow-900 text-yellow-400 px-2 py-1 rounded-md">GET!</div>
-        </div>
-      </header>
+            return (
+                <div className="pb-20">
+                    <div className="bg-slate-900 text-white py-2 text-center text-[9px] font-black tracking-[0.1em] uppercase border-b border-white/10 px-4">
+                        SAKURA BLOOM 2026 KIZUNA Exhibition with Shining Planner
+                    </div>
 
-      {/* Progress Card */}
-      <div className="max-w-2xl mx-auto px-4 mt-12 relative z-10">
-        <div className="bg-white rounded-[2rem] p-6 shadow-2xl border border-pink-50">
-          <div className="flex justify-between items-end mb-4 px-2 text-slate-400 text-center">
-            <div>
-              <p className="text-[9px] font-black uppercase tracking-widest leading-none mb-1">Mission Progress / 任務遂行状況</p>
-              <p className="text-2xl font-black text-rose-500 italic leading-none uppercase">Mission Status</p>
-            </div>
-            <div className="text-right">
-              <span className="text-3xl font-black text-rose-500 leading-none">{progress}</span>
-              <span className="text-gray-300 font-bold ml-1 text-xl">/ {totalMissions}</span>
-            </div>
-          </div>
-          <div className="h-6 bg-gray-100 rounded-full overflow-hidden p-1 shadow-inner">
-            <div 
-              className="h-full bg-gradient-to-r from-pink-400 via-rose-500 to-orange-400 rounded-full transition-all duration-1000 ease-out shadow-sm"
-              style={{ width: `${(progress / totalMissions) * 100}%` }}
-            />
-          </div>
-        </div>
+                    <header className="bg-gradient-to-r from-pink-400 to-rose-400 text-white pt-10 pb-24 px-6 text-center rounded-b-[4rem] shadow-xl relative border-b-8 border-rose-100 text-shadow">
+                        <div className="max-w-2xl mx-auto">
+                            <div className="inline-block bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-[10px] font-bold mb-4 tracking-widest border border-white/30 uppercase">
+                                KIZUNA Mission Game
+                            </div>
+                            <h1 className="text-4xl md:text-5xl font-black mb-2 tracking-tighter italic">MISSION 「SAKURA」</h1>
+                            <p className="text-pink-100 font-bold opacity-95 text-sm md:text-base leading-tight">
+                                Nurture Virtue and create the future. Complete the KIZUNA Missions! <br/>
+                                <span className="text-xs opacity-80 mt-1 block font-medium uppercase tracking-wider">徳を積み、未来を創れ。KIZUNAミッションを遂行せよ！</span>
+                            </p>
+                        </div>
+                        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-yellow-400 text-yellow-900 px-6 py-3 rounded-2xl shadow-lg border-2 border-white flex items-center justify-between z-20">
+                            <div className="flex items-center gap-2">
+                                <Icon name="Utensils" size={18} className="text-yellow-800" />
+                                <span className="font-black text-xs italic uppercase tracking-tighter">Clear Reward: Free Sutadon! / すた丼プレゼント！</span>
+                            </div>
+                            <div className="text-[9px] font-black bg-yellow-900 text-yellow-400 px-2 py-1 rounded-md">GET!</div>
+                        </div>
+                    </header>
 
-        {/* Introduction Section: TOKU */}
-        <div className="mt-8 bg-white rounded-3xl p-6 shadow-lg border-2 border-orange-100">
-          <div className="flex items-center gap-3 mb-4">
-             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-500 shadow-inner">
-               <Heart size={24} fill="currentColor" />
-             </div>
-             <div>
-               <h2 className="text-lg font-black text-orange-600 italic leading-tight uppercase tracking-tight">7 Virtues Guide / 共創する7つの徳</h2>
-               <p className="text-[10px] text-orange-400 font-bold uppercase tracking-tighter italic">TOKU: Virtue & Deeds of Kindness</p>
-             </div>
-          </div>
-          <p className="text-xs text-slate-600 leading-relaxed font-bold">
-            At SAKURA BLOOM 2026, your kindness becomes energy to save the world! We call this TOKU — Virtue / Deeds of Kindness. <br/><br/>
-            <span className="opacity-80 text-[10px] font-normal block leading-snug">
-              SAKURA BLOOM 2026では、あなたの良い行いがエネルギーとなり、セブ島の子どもたちの未来を救う力に変わります。これを私たちは徳（TOKU）と呼んでいます。
-            </span>
-          </p>
-        </div>
+                    <div className="max-w-2xl mx-auto px-4 mt-12 relative z-10">
+                        <div className="bg-white rounded-[2rem] p-6 shadow-2xl border border-pink-50 mb-8 text-center">
+                            <div className="flex justify-between items-end mb-4 px-2 text-slate-400">
+                                <div>
+                                    <p className="text-[9px] font-black uppercase tracking-widest leading-none mb-1">Mission Progress / 任務遂行状況</p>
+                                    <p className="text-2xl font-black text-rose-500 italic leading-none uppercase">Mission Status</p>
+                                </div>
+                                <div className="text-right">
+                                    <span className="text-3xl font-black text-rose-500 leading-none">{progress}</span>
+                                    <span className="text-gray-300 font-bold ml-1 text-xl">/ {totalMissions}</span>
+                                </div>
+                            </div>
+                            <div className="h-6 bg-gray-100 rounded-full overflow-hidden p-1 shadow-inner">
+                                <div 
+                                    className="h-full bg-gradient-to-r from-pink-400 via-rose-500 to-orange-400 rounded-full transition-all duration-1000 ease-out"
+                                    style={{ width: `${(progress / totalMissions) * 100}%` }}
+                                />
+                            </div>
+                        </div>
 
-        {/* Global Share Section */}
-        <div className="mt-6 flex flex-wrap justify-center gap-4 py-4 px-6 bg-slate-100 rounded-2xl border border-slate-200">
-           <p className="w-full text-center text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 text-center">Share the Mission! / ミッションをシェアしよう！</p>
-           <button onClick={() => openShare('x')} className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"><Twitter size={18}/></button>
-           <button onClick={() => openShare('fb')} className="w-10 h-10 bg-[#1877F2] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"><Facebook size={18}/></button>
-           <button onClick={() => openShare('ig')} className="w-10 h-10 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"><Instagram size={18}/></button>
-           <button onClick={() => openShare('tt')} className="w-10 h-10 bg-[#000000] text-white rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform border border-white/20"><TikTokIcon size={18}/></button>
-        </div>
+                        <div className="bg-white rounded-3xl p-6 shadow-lg border-2 border-orange-100 mb-8">
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-500 shadow-inner">
+                                    <Icon name="Heart" size={24} />
+                                </div>
+                                <div>
+                                    <h2 className="text-lg font-black text-orange-600 italic leading-tight uppercase tracking-tight text-left">7 Virtues Guide / 共創する7つの徳</h2>
+                                    <p className="text-[10px] text-orange-400 font-bold uppercase tracking-tighter italic text-left">TOKU: Virtue & Deeds of Kindness</p>
+                                </div>
+                            </div>
+                            <p className="text-xs text-slate-600 leading-relaxed font-bold">
+                                At SAKURA BLOOM 2026, your kindness becomes energy to save the world! We call this TOKU — Virtue / Deeds of Kindness. <br/><br/>
+                                <span className="opacity-80 text-[10px] font-normal block leading-snug">
+                                    SAKURA BLOOM 2026では、あなたの良い行いがエネルギーとなり、セブ島の子どもたちの未来を救う力に変わります。これを私たちは徳（TOKU）と呼んでいます。
+                                </span>
+                            </p>
+                        </div>
 
-        {/* Motivation Section - HERO */}
-        <div className="mt-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-6 shadow-xl text-white relative overflow-hidden group border border-white/20">
-          <Sparkles className="absolute -right-4 -bottom-4 text-white/10 group-hover:scale-150 transition-transform duration-700" size={120} />
-          <div className="relative z-10">
-            <h2 className="text-xl font-black mb-2 flex items-center gap-2 text-yellow-300 italic uppercase tracking-tighter">
-              Complete All Missions! / 全クリアを目指そう！
-            </h2>
-            <p className="text-xs text-indigo-100 font-bold leading-relaxed">
-              Complete all 15 missions to get the Grand Prize! Become a legendary KIZUNA Hero! <br/>
-              <span className="opacity-70 text-[10px] font-normal block mt-1">15個すべてのミッションをクリアして、豪華賞品をゲット！伝説のKIZUNAヒーローになろう！</span>
-            </p>
-          </div>
-        </div>
+                        <div className="space-y-6">
+                            {missionsData.map((m, idx) => (
+                                <div key={m.id} className={`bg-white rounded-3xl shadow-lg overflow-hidden border-2 transition-all duration-300 ${completed[m.id] ? 'border-green-400 bg-green-50/30 scale-[0.98]' : 'border-white'}`}>
+                                    <div className={`p-4 flex items-center justify-between ${m.color} text-white shadow-md`}>
+                                        <div className="flex items-center gap-3 text-left">
+                                            <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center shadow-inner">
+                                                <Icon name={m.icon} size={18} />
+                                            </div>
+                                            <div>
+                                                <p className="text-[9px] font-bold opacity-80 uppercase tracking-tighter">Mission {(idx+1).toString().padStart(2, '0')}</p>
+                                                <h3 className="text-base font-black leading-tight tracking-tight">{m.title}</h3>
+                                            </div>
+                                        </div>
+                                        {completed[m.id] ? <Icon name="Check" size={20} className="animate-bounce" /> : <div className="bg-black/10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase">Active</div>}
+                                    </div>
+                                    <div className="p-5 text-left">
+                                        <p className="text-xs text-gray-700 mb-4 font-bold leading-relaxed">{m.desc}</p>
+                                        
+                                        {m.custom && (
+                                            <div className="grid grid-cols-2 gap-2">
+                                                <button onClick={() => { openShare('x'); handleComplete(m.id); }} className="py-3 bg-black text-white rounded-xl font-bold flex items-center justify-center gap-2 text-xs hover:opacity-90 active:scale-95 transition-all"><Icon name="Twitter" size={16} /> X</button>
+                                                <button onClick={() => { openShare('fb'); handleComplete(m.id); }} className="py-3 bg-[#1877F2] text-white rounded-xl font-bold flex items-center justify-center gap-2 text-xs hover:opacity-90 active:scale-95 transition-all"><Icon name="Facebook" size={16} /> Facebook</button>
+                                                <button onClick={() => { openShare('ig'); handleComplete(m.id); }} className="py-3 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 text-white rounded-xl font-bold flex items-center justify-center gap-2 text-xs hover:opacity-90 active:scale-95 transition-all"><Icon name="Instagram" size={16} /> Instagram</button>
+                                                <button onClick={() => { openShare('tt'); handleComplete(m.id); }} className="py-3 bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 text-xs hover:opacity-90 active:scale-95 transition-all"><Icon name="TikTok" size={16} /> TikTok</button>
+                                            </div>
+                                        )}
+                                        {m.btn && !m.custom && <button onClick={() => handleComplete(m.id)} className="w-full py-3 bg-rose-500 text-white rounded-xl font-bold shadow-md text-xs uppercase hover:bg-rose-600 active:scale-95 transition-all">{m.btn}</button>}
+                                        {m.quiz && (
+                                            <div className="grid gap-2">
+                                                <button onClick={() => handleComplete(m.id)} className="p-3 border-2 border-rose-200 rounded-xl text-left font-bold text-sm hover:bg-rose-50 transition active:scale-95">March & April / 3月・4月</button>
+                                                <button className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm opacity-50 cursor-not-allowed">July & August / 7月・8月</button>
+                                                <button className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm opacity-50 cursor-not-allowed">January & February / 1月・2月</button>
+                                            </div>
+                                        )}
+                                        {m.tap && (
+                                            <button onClick={() => { setTapCount(c => c + 1); if (tapCount >= 9) handleComplete(m.id); }} className="w-full py-4 bg-orange-500 text-white rounded-xl font-black text-xl active:scale-95 transition-all shadow-lg hover:bg-orange-600">
+                                                {completed[m.id] ? 'POWER MAX!' : `TAP!! (${tapCount}/10)`}
+                                            </button>
+                                        )}
+                                        {m.choices && (
+                                            <div className="grid gap-2">
+                                                {m.choices.map((choice, i) => (
+                                                    <button key={i} onClick={() => i === 0 && handleComplete(m.id)} className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm hover:bg-slate-50 active:scale-95 transition-all">{choice}</button>
+                                                ))}
+                                            </div>
+                                        )}
+                                        {m.last && (
+                                            <div className="space-y-4">
+                                                <div className="p-4 bg-red-50 border-2 border-red-200 rounded-2xl text-red-700 text-xs font-bold text-center uppercase tracking-tighter">Area: All over Mactan Newtown / 街じゅう全部！</div>
+                                                <button onClick={() => handleComplete(m.id)} className="w-full py-4 bg-red-600 text-white rounded-xl font-black text-lg shadow-lg flex items-center justify-center gap-2 hover:bg-red-700 active:scale-95 transition-all uppercase tracking-tighter"><Icon name="Trophy" size={20} /> I found all 32!</button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
-        {/* Global Alert Message */}
-        {message && (
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] bg-white text-rose-500 px-8 py-4 rounded-3xl shadow-[0_0_50px_rgba(244,63,94,0.3)] font-black text-lg border-4 border-rose-500 animate-in zoom-in spin-in-12 duration-300 text-center uppercase tracking-tight">
-            {message} 🌸
-          </div>
-        )}
+                        {showReward && (
+                            <div className="mt-16 p-8 bg-gradient-to-br from-yellow-400 via-amber-400 to-orange-500 rounded-[3rem] text-center shadow-2xl border-8 border-white animate-bounce-slow">
+                                <Icon name="Trophy" size={70} className="mx-auto text-white mb-6 drop-shadow-lg" />
+                                <h2 className="text-3xl font-black text-white mb-2 italic tracking-tighter uppercase text-shadow">Legendary Hero!</h2>
+                                <p className="text-white/90 mb-8 font-bold text-sm">You are amazing! You became a legendary hero! <br/> <span className="opacity-80 block mt-1 font-medium italic">君はすごい！絆の精神を広めた伝説のヒーローだ！</span></p>
+                                <div className="space-y-4">
+                                    <div className="bg-white/20 backdrop-blur-md p-5 rounded-2xl border border-white/30 text-white">
+                                        <p className="uppercase tracking-widest text-[10px] font-black mb-2">Secret Code / 秘密の合言葉</p>
+                                        <p className="text-2xl font-mono font-black tracking-widest uppercase">Kizuna-Hero-2026</p>
+                                    </div>
+                                    <div className="bg-white p-5 rounded-2xl shadow-xl text-slate-800 border-2 border-slate-50">
+                                        <p className="text-[10px] text-amber-600 font-black uppercase italic">Game Clear Prize / 全クリア賞</p>
+                                        <p className="text-lg font-black italic tracking-tight">KIZUNA Hero Certificate</p>
+                                        <p className="text-[11px] font-bold text-rose-500 mt-2 mb-3">Go to Sutadonya Cebu to get your Reward & Stamp!<br/>すた丼セブ店に行ってスタンプと報酬をもらおう！</p>
+                                        <div className="mt-3 flex items-center justify-center gap-2 text-rose-500 font-black text-[10px]"><Icon name="Send" size={16} /> Show this to staff! / スタッフに見せてね！</div>
+                                    </div>
+                                </div>
+                                <div className="mt-8 py-5 px-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                                    <p className="text-white font-black text-xs mb-4 italic text-center uppercase tracking-tight">Share your success! / 任務完了を知らせよう！</p>
+                                    <div className="flex justify-center gap-3">
+                                        <button onClick={() => openShare('x')} className="flex flex-col items-center gap-1 group">
+                                            <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"><Icon name="Twitter" size={20} className="text-white" /></div>
+                                            <span className="text-[9px] text-white font-bold uppercase">X</span>
+                                        </button>
+                                        <button onClick={() => openShare('fb')} className="flex flex-col items-center gap-1 group">
+                                            <div className="w-10 h-10 bg-[#1877F2] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"><Icon name="Facebook" size={20} className="text-white" /></div>
+                                            <span className="text-[9px] text-white font-bold uppercase">Facebook</span>
+                                        </button>
+                                        <button onClick={() => openShare('ig')} className="flex flex-col items-center gap-1 group">
+                                            <div className="w-10 h-10 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"><Icon name="Instagram" size={20} className="text-white" /></div>
+                                            <span className="text-[9px] text-white font-bold uppercase">Instagram</span>
+                                        </button>
+                                        <button onClick={() => openShare('tt')} className="flex flex-col items-center gap-1 group">
+                                            <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform border border-white/20"><Icon name="TikTok" size={20} className="text-white" /></div>
+                                            <span className="text-[9px] text-white font-bold uppercase">TikTok</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button className="mt-8 w-full py-4 bg-white text-orange-600 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition-all uppercase tracking-tighter">Get Reward & Stamp! / 報酬をもらう 🎁</button>
+                                <p className="text-white font-black text-sm mt-6 italic underline animate-pulse">Go to Sutadonya Cebu! / すた丼セブ店へGO!</p>
+                            </div>
+                        )}
+                    </div>
 
-        {/* Mission List */}
-        <div className="mt-8 space-y-6">
-          {missionsData.map((m, idx) => (
-            <div key={m.id} className={`bg-white rounded-3xl shadow-lg overflow-hidden border-2 transition-all duration-300 ${completed[m.id] ? 'border-green-400 bg-green-50/30' : 'border-white'}`}>
-              <div className={`p-4 flex items-center justify-between ${m.color} text-white shadow-md`}>
-                <div className="flex items-center gap-3 text-left">
-                  <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center shadow-inner">
-                    <m.icon size={18} />
-                  </div>
-                  <div>
-                    <p className="text-[9px] font-bold opacity-80 uppercase tracking-tighter">{m.taskLabel}</p>
-                    <h3 className="text-base font-black leading-tight tracking-tight">{m.title}</h3>
-                  </div>
+                    {message && (
+                        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] bg-white text-rose-500 px-8 py-4 rounded-3xl shadow-2xl font-black text-lg border-4 border-rose-500 animate-pulse text-center uppercase tracking-tight">
+                            {message} 🌸
+                        </div>
+                    )}
+
+                    <footer className="mt-24 text-center pb-12 px-6">
+                        <div className="flex justify-center gap-6 mb-6">
+                            <button onClick={() => openShare('x')} className="w-9 h-9 bg-pink-100 rounded-full flex items-center justify-center text-pink-500 hover:scale-110 transition-all"><Icon name="Twitter" size={16}/></button>
+                            <button onClick={() => openShare('fb')} className="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 hover:scale-110 transition-all"><Icon name="Facebook" size={16}/></button>
+                            <button onClick={() => openShare('ig')} className="w-9 h-9 bg-purple-100 rounded-full flex items-center justify-center text-purple-500 hover:scale-110 transition-all"><Icon name="Instagram" size={16}/></button>
+                            <button onClick={() => openShare('tt')} className="w-9 h-9 bg-slate-200 rounded-full flex items-center justify-center text-slate-800 hover:scale-110 transition-all"><Icon name="TikTok" size={16}/></button>
+                        </div>
+                        <p className="text-[10px] font-black text-gray-400 uppercase mb-1 tracking-widest">SAKURA BLOOM 2026 KIZUNA Exhibition with Shining Planner</p>
+                        <p className="text-[9px] font-bold text-gray-300 uppercase mb-4 tracking-tighter">Shining Planner Inc. Official Application</p>
+                        <div className="flex justify-center gap-4 text-[9px] font-bold text-center">
+                            <a href="https://shining-planner.jp/sakurabloom2026" className="text-pink-400 underline decoration-pink-200">Official Site</a>
+                            <a href="https://uzuworld.com/sakurabloom2026" className="text-orange-400 underline decoration-orange-200">About TOKU</a>
+                        </div>
+                    </footer>
                 </div>
-                {completed[m.id] ? (
-                   <CheckCircle2 className="animate-bounce" size={20} />
-                ) : (
-                  <div className="bg-black/10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest">Active</div>
-                )}
-              </div>
-              <div className="p-5">
-                <p className="text-xs text-gray-700 mb-4 font-bold leading-relaxed">{m.description}</p>
-                {m.component}
-              </div>
-            </div>
-          ))}
-        </div>
+            );
+        };
 
-        {/* Final Reward Modal - HERO */}
-        {showReward && (
-          <div className="mt-16 p-8 bg-gradient-to-br from-yellow-400 via-amber-400 to-orange-500 rounded-[3rem] text-center shadow-[0_20px_60px_rgba(245,158,11,0.4)] border-8 border-white animate-in slide-in-from-bottom-20 duration-1000">
-            <Trophy className="mx-auto text-white mb-6 drop-shadow-lg" size={70} />
-            <h2 className="text-3xl font-black text-white mb-2 italic tracking-tighter text-shadow uppercase">Legendary Hero!</h2>
-            <p className="text-white/90 mb-8 font-bold leading-relaxed text-sm text-center">
-              You are amazing! You completed all missions and spread the spirit of KIZUNA! <br/>
-              <span className="text-xs opacity-80 block mt-1 font-medium italic">君はすごい！すべての任務を完了し、絆の精神を広めた伝説のヒーローだ！</span>
-            </p>
-            
-            <div className="space-y-4">
-              <div className="bg-white/20 backdrop-blur-md p-5 rounded-2xl border border-white/30 shadow-inner">
-                <div className="flex items-center justify-center gap-2 text-white font-black mb-2 uppercase tracking-widest text-[10px]">
-                   <UtensilsCrossed size={14} /> Secret Reward Code / 秘密の合言葉
-                </div>
-                <p className="text-2xl font-mono font-black text-white tracking-widest drop-shadow uppercase">Kizuna-Hero-2026</p>
-              </div>
-
-              <div className="bg-white p-5 rounded-2xl shadow-xl transform rotate-1 border-2 border-slate-50">
-                <p className="text-[10px] text-amber-600 font-black mb-1 uppercase tracking-widest italic">Mission Complete Prize / 全クリア賞</p>
-                <p className="text-lg font-black text-slate-800 italic tracking-tight">KIZUNA Hero Certificate / 絆ヒーロー認定証</p>
-                <div className="mt-3 flex items-center justify-center gap-2 text-rose-500 font-black text-[10px]">
-                   <Gift size={16} /> Show this screen to staff! / スタッフに画面を見せてね！
-                </div>
-              </div>
-            </div>
-
-            {/* Achievement Share Updated with Instagram */}
-            <div className="mt-8 py-5 px-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
-              <p className="text-white font-black text-xs mb-4 italic tracking-tight text-center uppercase">Share your success! / 任務完了を世界に知らせよう！</p>
-              <div className="flex justify-center gap-4">
-                <button onClick={() => openShare('x')} className="flex flex-col items-center gap-1 group">
-                   <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"><Twitter size={18} className="text-white" /></div>
-                   <span className="text-[9px] text-white font-bold tracking-tighter uppercase tracking-widest">X</span>
-                </button>
-                <button onClick={() => openShare('fb')} className="flex flex-col items-center gap-1 group">
-                   <div className="w-10 h-10 bg-[#1877F2] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"><Facebook size={18} className="text-white" /></div>
-                   <span className="text-[9px] text-white font-bold tracking-tighter uppercase tracking-widest">FB</span>
-                </button>
-                <button onClick={() => openShare('ig')} className="flex flex-col items-center gap-1 group">
-                   <div className="w-10 h-10 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"><Instagram size={18} className="text-white" /></div>
-                   <span className="text-[9px] text-white font-bold tracking-tighter uppercase tracking-widest">IG</span>
-                </button>
-                <button onClick={() => openShare('tt')} className="flex flex-col items-center gap-1 group">
-                   <div className="w-10 h-10 bg-[#000000] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform border border-white/20"><TikTokIcon size={18} className="text-white" /></div>
-                   <span className="text-[9px] text-white font-bold tracking-tighter uppercase tracking-widest">TikTok</span>
-                </button>
-              </div>
-            </div>
-            
-            <button className="mt-8 w-full py-4 bg-white text-orange-500 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition-all uppercase tracking-tighter">
-               Get Reward! / 報酬を受け取る 🎁
-            </button>
-          </div>
-        )}
-
-        <footer className="mt-24 text-center pb-12">
-          <div className="flex justify-center gap-6 mb-6">
-             <div className="w-9 h-9 bg-pink-100 rounded-full flex items-center justify-center text-pink-500 shadow-sm hover:scale-110 transition-transform cursor-pointer" onClick={() => openShare('x')}><Twitter size={16}/></div>
-             <div className="w-9 h-9 bg-blue-100 rounded-full flex items-center justify-center text-blue-500 shadow-sm hover:scale-110 transition-transform cursor-pointer" onClick={() => openShare('fb')}><Facebook size={16}/></div>
-             <div className="w-9 h-9 bg-purple-100 rounded-full flex items-center justify-center text-purple-500 shadow-sm hover:scale-110 transition-transform cursor-pointer" onClick={() => openShare('ig')}><Instagram size={16}/></div>
-             <div className="w-9 h-9 bg-slate-200 rounded-full flex items-center justify-center text-slate-800 shadow-sm hover:scale-110 transition-transform cursor-pointer" onClick={() => openShare('tt')}><TikTokIcon size={16}/></div>
-          </div>
-          <p className="text-[10px] font-black text-gray-400 tracking-widest uppercase mb-1 text-center">
-            SAKURA BLOOM 2026 KIZUNA Exhibition with Shining Planner
-          </p>
-          <p className="text-[9px] font-bold text-gray-300 uppercase mb-4 tracking-tighter text-center">
-            Shining Planner Inc. Official Application
-          </p>
-          <div className="flex justify-center gap-4">
-            <a href="https://shining-planner.jp/sakurabloom2026" className="text-[9px] text-pink-400 font-bold underline decoration-pink-300">Official Site</a>
-            <a href="https://uzuworld.com/sakurabloom2026" className="text-[9px] text-orange-400 font-bold underline decoration-orange-300">About TOKU</a>
-          </div>
-        </footer>
-      </div>
-    </div>
-  );
-};
-
-export default App;
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
