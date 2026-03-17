@@ -42,7 +42,7 @@
                 Music: <React.Fragment><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></React.Fragment>,
                 Trophy: <React.Fragment><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></React.Fragment>,
                 Check: <path d="M20 6L9 17l-5-5" />,
-                Twitter: <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />,
+                Twitter: <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153zM17.61 20.644h2.039L6.486 3.24H4.298L17.61 20.644z" />,
                 Facebook: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />,
                 Instagram: <React.Fragment><rect x="2" y="2" width="20" height="20" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" /></React.Fragment>,
                 TikTok: <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />,
@@ -75,14 +75,15 @@
             const [tapCount, setTapCount] = useState(0);
 
             const progress = Object.values(completed).filter(Boolean).length;
-            const shareUrl = "https://shining-planner.jp/sakurabloom2026";
+            const shareUrl = "https://shining-planner.jp/sakurabloom2026/mission-sakura";
             const shareText = "I'm on a MISSION 「SAKURA」! I became a KIZUNA Hero in Cebu! 🌸 #SakuraBloom2026 #KIZUNAHero";
 
             const handleComplete = (id) => {
                 if (completed[id]) return;
                 setCompleted(prev => ({ ...prev, [id]: true }));
                 setMessage(`MISSION COMPLETE! / ミッション完了！`);
-                setTimeout(() => setMessage(''), 2000);
+                // Use functional update or separate ref if rapid clicking occurs
+                setTimeout(() => setMessage(''), 2500);
             };
 
             const openShare = (platform) => {
@@ -99,6 +100,7 @@
                     document.execCommand('copy');
                     document.body.removeChild(tempInput);
                     setMessage('Link Copied! / リンクをコピーしたよ！');
+                    setTimeout(() => setMessage(''), 2500);
                     return;
                 }
                 window.open(url, '_blank');
@@ -119,7 +121,7 @@
                 { id: 'mission6', type: 'STAGE 6: Wisdom / 学', title: 'Learn something new! / 新しいことを知ろう！', icon: 'BookOpen', desc: 'Discover Japanese culture at the Exhibition! / 展示を見て、日本の文化に触れてみよう！', color: 'bg-amber-500', btn: 'I learned a lot! / たくさん学んだよ！' },
                 { id: 'mission7', type: 'STAGE 7: Pay It Forward / 送', title: 'Pass on the good energy! / 元気のバトンタッチ！', icon: 'Heart', desc: 'Give a high-five or kind words to a friend! / 友達とハイタッチしたり「頑張れ！」と声をかけよう！', color: 'bg-rose-500', btn: 'I passed on my energy! / 友達と元気を繋いだ！' },
                 { id: 'mission8', type: 'Japan Quiz / 日本クイズ', title: 'Sakura Season / 桜の季節', icon: 'Search', desc: 'When is the best time to see Sakura in Japan? / 日本で桜が見れる有名な季節はいつかな？', color: 'bg-rose-400', quiz: true },
-                { id: 'mission9', type: 'Food / グルメ', title: 'Energize with Sutadon! / すた丼で元気になろう！', icon: 'Utensils', desc: 'Who do you want to see happy with Sutadon? / 誰にこの丼を食べてハッピーになってほしいかな？', color: 'bg-yellow-600', choices: ['Kids in Cebu / セブの子供たち', 'Only Me / 自分だけ', 'Aliens / 宇宙人'] },
+                { id: 'mission9', type: 'Food / グルメ', title: 'Energize with Sutadon! / すた丼で元気になろう！', icon: 'Utensils', desc: 'Who do you want to see happy with Sutadon? / 誰にこの丼を食べてハッピーになってほしいかな？', color: 'bg-yellow-600', choices: ['Cebu Children / セブの子供たち', 'Only Me / 自分だけ', 'Aliens / 宇宙人'] },
                 { id: 'mission10', type: 'Mini Game / ミニゲーム', title: 'Power Tap! / パワー・タップ！', icon: 'Zap', desc: 'Tap 10 times to send energy to Omusubis! / 10回連打しておむすびずにパワーを送れ！', color: 'bg-orange-400', tap: true },
                 { id: 'mission11', type: 'Sea Quiz / 海のクイズ', title: 'The Big Fish / 大きなお魚', icon: 'Waves', desc: 'Which giant fish can you swim with in Cebu? / セブ島で一緒に泳げる、世界最大の魚は何？', color: 'bg-blue-400', choices: ['Whale Shark / ジンベイザメ', 'Dolphin / イルカ', 'Crab / カニ'] },
                 { id: 'mission12', type: 'Nature / 自然', title: 'Save the Ocean / 海を守ろう', icon: 'Globe', desc: 'Who is happy when corals are healthy? / サンゴを元気にすると、誰が喜ぶかな？', color: 'bg-cyan-500', choices: ['Fishes / 海の生き物たち', 'Cars / 車', 'Robots / ロボット'] },
@@ -148,9 +150,9 @@
                         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-yellow-400 text-yellow-900 px-6 py-3 rounded-2xl shadow-lg border-2 border-white flex items-center justify-between z-20">
                             <div className="flex items-center gap-2">
                                 <Icon name="Utensils" size={18} className="text-yellow-800" />
-                                <span className="font-black text-xs italic uppercase tracking-tighter">Clear Reward: Free Sutadon! / すた丼プレゼント！</span>
+                                <span className="font-black text-xs italic uppercase tracking-tighter text-shadow">Reward: Free Sutadon! / すた丼プレゼント！</span>
                             </div>
-                            <div className="text-[9px] font-black bg-yellow-900 text-yellow-400 px-2 py-1 rounded-md">GET!</div>
+                            <div className="text-[9px] font-black bg-yellow-900 text-yellow-400 px-2 py-1 rounded-md uppercase tracking-widest">GO!</div>
                         </div>
                     </header>
 
@@ -158,7 +160,7 @@
                         <div className="bg-white rounded-[2rem] p-6 shadow-2xl border border-pink-50 mb-8 text-center">
                             <div className="flex justify-between items-end mb-4 px-2 text-slate-400">
                                 <div>
-                                    <p className="text-[9px] font-black uppercase tracking-widest leading-none mb-1">Mission Progress / 任務遂行状況</p>
+                                    <p className="text-[9px] font-black uppercase tracking-widest leading-none mb-1 text-slate-400">Mission Progress / 任務遂行状況</p>
                                     <p className="text-2xl font-black text-rose-500 italic leading-none uppercase">Mission Status</p>
                                 </div>
                                 <div className="text-right">
@@ -175,7 +177,7 @@
                         </div>
 
                         <div className="bg-white rounded-3xl p-6 shadow-lg border-2 border-orange-100 mb-8">
-                            <div className="flex items-center gap-3 mb-4">
+                            <div className="flex items-center gap-3 mb-4 text-left">
                                 <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-500 shadow-inner">
                                     <Icon name="Heart" size={24} />
                                 </div>
@@ -184,9 +186,9 @@
                                     <p className="text-[10px] text-orange-400 font-bold uppercase tracking-tighter italic text-left">TOKU: Virtue & Deeds of Kindness</p>
                                 </div>
                             </div>
-                            <p className="text-xs text-slate-600 leading-relaxed font-bold">
+                            <p className="text-xs text-slate-600 leading-relaxed font-bold text-left">
                                 At SAKURA BLOOM 2026, your kindness becomes energy to save the world! We call this TOKU — Virtue / Deeds of Kindness. <br/><br/>
-                                <span className="opacity-80 text-[10px] font-normal block leading-snug">
+                                <span className="opacity-80 text-[10px] font-normal block leading-snug text-left">
                                     SAKURA BLOOM 2026では、あなたの良い行いがエネルギーとなり、セブ島の子どもたちの未来を救う力に変わります。これを私たちは徳（TOKU）と呼んでいます。
                                 </span>
                             </p>
@@ -201,8 +203,8 @@
                                                 <Icon name={m.icon} size={18} />
                                             </div>
                                             <div>
-                                                <p className="text-[9px] font-bold opacity-80 uppercase tracking-tighter">Mission {(idx+1).toString().padStart(2, '0')}</p>
-                                                <h3 className="text-base font-black leading-tight tracking-tight">{m.title}</h3>
+                                                <p className="text-[9px] font-bold opacity-80 uppercase tracking-tighter text-shadow">Mission {(idx+1).toString().padStart(2, '0')}</p>
+                                                <h3 className="text-base font-black leading-tight tracking-tight text-shadow">{m.title}</h3>
                                             </div>
                                         </div>
                                         {completed[m.id] ? <Icon name="Check" size={20} className="animate-bounce" /> : <div className="bg-black/10 px-2 py-0.5 rounded-full text-[9px] font-black uppercase">Active</div>}
@@ -222,8 +224,8 @@
                                         {m.quiz && (
                                             <div className="grid gap-2">
                                                 <button onClick={() => handleComplete(m.id)} className="p-3 border-2 border-rose-200 rounded-xl text-left font-bold text-sm hover:bg-rose-50 transition active:scale-95">March & April / 3月・4月</button>
-                                                <button className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm opacity-50 cursor-not-allowed">July & August / 7月・8月</button>
-                                                <button className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm opacity-50 cursor-not-allowed">January & February / 1月・2月</button>
+                                                <button onClick={() => setMessage('Try again! / もう一度考えてみてね！')} className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm opacity-50 hover:opacity-80">July & August / 7月・8月</button>
+                                                <button onClick={() => setMessage('Try again! / もう一度考えてみてね！')} className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm opacity-50 hover:opacity-80">January & February / 1月・2月</button>
                                             </div>
                                         )}
                                         {m.tap && (
@@ -234,13 +236,16 @@
                                         {m.choices && (
                                             <div className="grid gap-2">
                                                 {m.choices.map((choice, i) => (
-                                                    <button key={i} onClick={() => i === 0 && handleComplete(m.id)} className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm hover:bg-slate-50 active:scale-95 transition-all">{choice}</button>
+                                                    <button key={i} onClick={() => {
+                                                        if (i === 0) handleComplete(m.id);
+                                                        else setMessage('Check again! / よく考えてみてね！');
+                                                    }} className="p-3 border-2 border-slate-100 rounded-xl text-left font-bold text-sm hover:bg-slate-50 active:scale-95 transition-all">{choice}</button>
                                                 ))}
                                             </div>
                                         )}
                                         {m.last && (
                                             <div className="space-y-4">
-                                                <div className="p-4 bg-red-50 border-2 border-red-200 rounded-2xl text-red-700 text-xs font-bold text-center uppercase tracking-tighter">Area: All over Mactan Newtown / 街じゅう全部！</div>
+                                                <div className="p-4 bg-red-50 border-2 border-red-200 rounded-2xl text-red-700 text-xs font-bold text-center uppercase tracking-tighter shadow-inner">Area: All over Mactan Newtown / 街じゅう全部！</div>
                                                 <button onClick={() => handleComplete(m.id)} className="w-full py-4 bg-red-600 text-white rounded-xl font-black text-lg shadow-lg flex items-center justify-center gap-2 hover:bg-red-700 active:scale-95 transition-all uppercase tracking-tighter"><Icon name="Trophy" size={20} /> I found all 32!</button>
                                             </div>
                                         )}
@@ -257,7 +262,7 @@
                                 <div className="space-y-4">
                                     <div className="bg-white/20 backdrop-blur-md p-5 rounded-2xl border border-white/30 text-white">
                                         <p className="uppercase tracking-widest text-[10px] font-black mb-2">Secret Code / 秘密の合言葉</p>
-                                        <p className="text-2xl font-mono font-black tracking-widest uppercase">Kizuna-Hero-2026</p>
+                                        <p className="text-2xl font-mono font-black tracking-widest uppercase text-shadow">Kizuna-Hero-2026</p>
                                     </div>
                                     <div className="bg-white p-5 rounded-2xl shadow-xl text-slate-800 border-2 border-slate-50">
                                         <p className="text-[10px] text-amber-600 font-black uppercase italic">Game Clear Prize / 全クリア賞</p>
@@ -287,7 +292,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <button className="mt-8 w-full py-4 bg-white text-orange-600 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition-all uppercase tracking-tighter">Get Reward & Stamp! / 報酬をもらう 🎁</button>
+                                <button onClick={() => setMessage('SUTADONYA CEBU IS WAITING FOR YOU!')} className="mt-8 w-full py-4 bg-white text-orange-600 rounded-2xl font-black text-lg shadow-xl active:scale-95 transition-all uppercase tracking-tighter shadow-md">Get Reward & Stamp! / 報酬をもらう 🎁</button>
                                 <p className="text-white font-black text-sm mt-6 italic underline animate-pulse">Go to Sutadonya Cebu! / すた丼セブ店へGO!</p>
                             </div>
                         )}
@@ -306,9 +311,9 @@
                             <button onClick={() => openShare('ig')} className="w-9 h-9 bg-purple-100 rounded-full flex items-center justify-center text-purple-500 hover:scale-110 transition-all"><Icon name="Instagram" size={16}/></button>
                             <button onClick={() => openShare('tt')} className="w-9 h-9 bg-slate-200 rounded-full flex items-center justify-center text-slate-800 hover:scale-110 transition-all"><Icon name="TikTok" size={16}/></button>
                         </div>
-                        <p className="text-[10px] font-black text-gray-400 uppercase mb-1 tracking-widest">SAKURA BLOOM 2026 KIZUNA Exhibition with Shining Planner</p>
-                        <p className="text-[9px] font-bold text-gray-300 uppercase mb-4 tracking-tighter">Shining Planner Inc. Official Application</p>
-                        <div className="flex justify-center gap-4 text-[9px] font-bold text-center">
+                        <p className="text-[10px] font-black text-gray-400 uppercase mb-1 tracking-widest text-center">SAKURA BLOOM 2026 KIZUNA Exhibition with Shining Planner</p>
+                        <p className="text-[9px] font-bold text-gray-300 uppercase mb-4 tracking-tighter text-center">Shining Planner Inc. Official Application</p>
+                        <div className="flex justify-center gap-4 text-[9px] font-bold">
                             <a href="https://shining-planner.jp/sakurabloom2026" className="text-pink-400 underline decoration-pink-200">Official Site</a>
                             <a href="https://uzuworld.com/sakurabloom2026" className="text-orange-400 underline decoration-orange-200">About TOKU</a>
                         </div>
